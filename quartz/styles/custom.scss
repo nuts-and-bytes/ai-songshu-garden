@@ -1,3 +1,158 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// --- Fuwari Theme Design System Optimization ---
+
+:root {
+  --card-radius: 14px;
+  --transition-speed: 0.3s;
+  --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+// Global Scrollbar Customization
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--lightgray);
+  border-radius: 4px;
+  &:hover {
+    background: var(--gray);
+  }
+}
+
+// Page Layout & Background
+body {
+  background-color: var(--light);
+  background-image: 
+    radial-gradient(var(--lightgray) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
+}
+
+// Desktop Card Layout for Main Content & Sidebar Components
+@media all and (min-width: 1200px) {
+  // Main Center Card
+  .center {
+    background: var(--light);
+    border: 1px solid var(--lightgray);
+    border-radius: var(--card-radius);
+    padding: 2.5rem 3rem !important;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow var(--transition-speed) var(--transition-bezier),
+                border-color var(--transition-speed) var(--transition-bezier);
+    margin-top: 6rem;
+    margin-bottom: 3rem;
+    
+    &:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gray);
+    }
+  }
+
+  // Sidebar cards for widgets
+  .sidebar {
+    padding-top: 6rem !important;
+    
+    // Select specific sidebar blocks to turn into cards
+    & > .explorer,
+    & > .toc,
+    & > .backlinks,
+    & > .graph {
+      background: var(--light);
+      border: 1px solid var(--lightgray);
+      border-radius: var(--card-radius);
+      padding: 1.5rem !important;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) var(--transition-bezier);
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gray);
+      }
+    }
+  }
+}
+
+// Micro-animations for Interactive Elements
+a, button, .darkmode {
+  transition: color 0.2s ease, transform 0.2s var(--transition-bezier);
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+// Premium Capsule-Style Tags
+.tag-link, .tag-list a {
+  display: inline-block;
+  background-color: var(--lightgray) !important;
+  color: var(--secondary) !important;
+  padding: 0.2rem 0.6rem !important;
+  border-radius: 20px !important;
+  font-size: 0.85rem !important;
+  margin-right: 0.4rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid transparent;
+  transition: all 0.2s var(--transition-bezier) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+
+  &:hover {
+    background-color: var(--secondary) !important;
+    color: var(--light) !important;
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &::before {
+    content: "# " !important;
+    font-weight: bold;
+    opacity: 0.7;
+  }
+}
+
+// Search Input Beautification
+.search {
+  input[type="text"] {
+    background-color: var(--lightgray) !important;
+    border: 1px solid transparent !important;
+    border-radius: 20px !important;
+    padding: 0.5rem 1rem 0.5rem 2.5rem !important;
+    transition: all 0.3s var(--transition-bezier) !important;
+    
+    &:focus {
+      background-color: var(--light) !important;
+      border-color: var(--secondary) !important;
+      box-shadow: 0 0 0 3px var(--highlight) !important;
+    }
+  }
+}
+
+// Blockquote & Code Block Enhancements
+blockquote {
+  background: var(--lightgray);
+  border-left: 4px solid var(--secondary) !important;
+  border-radius: 0 8px 8px 0;
+  padding: 0.8rem 1.2rem !important;
+  margin: 1.5rem 0 !important;
+  font-style: italic;
+}
+
+pre {
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-speed) var(--transition-bezier);
+  
+  &:hover {
+    border-color: var(--gray);
+  }
+}
