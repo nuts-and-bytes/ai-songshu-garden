@@ -4,12 +4,12 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "AI 与一只松鼠",
-    pageTitleSuffix: " · 数字花园",
+    pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
     locale: "zh-CN",
-    baseUrl: "aisongshu.example.com",
+    baseUrl: "zhuxinyao99-jpg.github.io/ai-songshu-garden",
     ignorePatterns: ["private", "templates", ".obsidian", ".claude", ".claudian", "个人播客准备"],
     defaultDateType: "modified",
     theme: {
