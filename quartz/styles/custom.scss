@@ -60,11 +60,10 @@ body {
   .sidebar {
     padding-top: 6rem !important;
     
-    // Select specific sidebar blocks to turn into cards
+    // Explorer, TOC, and Backlinks cards (with hover transform translateY)
     & > .explorer,
     & > .toc,
-    & > .backlinks,
-    & > .graph {
+    & > .backlinks {
       background: var(--light);
       border: 1px solid var(--lightgray);
       border-radius: var(--card-radius);
@@ -77,6 +76,24 @@ body {
       
       &:hover {
         transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gray);
+      }
+    }
+
+    // Graph card (no hover transform translateY to prevent canvas flashing and lag)
+    & > .graph {
+      background: var(--light);
+      border: 1px solid var(--lightgray);
+      border-radius: var(--card-radius);
+      padding: 1.5rem !important;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-speed) var(--transition-bezier);
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      
+      &:hover {
         box-shadow: var(--shadow-md);
         border-color: var(--gray);
       }

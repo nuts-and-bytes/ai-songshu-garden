@@ -552,7 +552,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   requestAnimationFrame(animate)
   return () => {
     stopAnimation = true
-    app.destroy()
+    app.destroy(true)
   }
 }
 
