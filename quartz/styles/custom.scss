@@ -35,7 +35,7 @@ body {
   border-bottom: 1px solid var(--lightgray);
   gap: 1rem;
 
-  h1.page-title {
+  h2.page-title {
     font-family: var(--bodyFont);
     font-size: 0.75rem;
     font-weight: 800;
@@ -260,6 +260,23 @@ pre {
   &:focus {
     border-color: var(--gray) !important;
     outline: none;
+  }
+}
+
+// ─── 首页隐藏右侧栏，让中栏全宽 ──────────────────────────────
+body[data-slug="index"] .sidebar.right {
+  display: none !important;
+  width: 0 !important;
+  padding: 0 !important;
+}
+
+@media all and (min-width: 1200px) {
+  body[data-slug="index"] #quartz-body {
+    grid-template-columns: auto;
+    grid-template-areas:
+      "grid-header"
+      "grid-center"
+      "grid-footer";
   }
 }
 
