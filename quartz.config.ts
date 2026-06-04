@@ -9,7 +9,7 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: null,
     locale: "zh-CN",
-    baseUrl: "zhuxinyao99-jpg.github.io/ai-songshu-garden",
+    baseUrl: "nuts-and-bytes.github.io/ai-songshu-garden",
     ignorePatterns: ["private", "templates", ".obsidian", ".claude", ".claudian", "个人播客准备"],
     defaultDateType: "modified",
     theme: {
