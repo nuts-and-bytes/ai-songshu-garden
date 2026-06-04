@@ -23,6 +23,11 @@ export const sharedPageComponents: SharedLayout = {
       }),
       condition: (page) => page.fileData.slug === "index",
     }),
+    Component.ConditionalRender({
+      component: Component.GithubCTA(),
+      condition: (page) =>
+        (page.fileData.slug?.startsWith("博客/") ?? false) && page.fileData.slug !== "博客/index",
+    }),
   ],
   footer: Component.Footer({
     links: {
