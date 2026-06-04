@@ -1,20 +1,28 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
-// components shared across all pages
+// 所有页面共享的顶部导航
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
+  header: [
+    Component.PageTitle(),
+    Component.Flex({
+      components: [
+        { Component: Component.Search(), grow: true },
+        { Component: Component.Darkmode() },
+      ],
+    }),
+  ],
   afterBody: [],
   footer: Component.Footer({
     links: {
       小红书: "https://www.xiaohongshu.com/user/profile/zhuxinyao99",
-      GitHub: "https://github.com/nuts-and-bytes/ai-songshu-garden",
+      GitHub: "https://github.com/nuts-and-bytes",
     },
   }),
 }
 
-// components for pages that display a single page (e.g. a single note)
+// 文章页：无左栏，右侧保留图谱 + TOC + 反向链接
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
@@ -25,21 +33,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ContentMeta(),
     Component.TagList(),
   ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    Component.Explorer(),
-  ],
+  left: [],
   right: [
     Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
@@ -47,22 +41,9 @@ export const defaultContentPageLayout: PageLayout = {
   ],
 }
 
-// components for pages that display lists of pages  (e.g. tags or folders)
+// 列表页（标签/文件夹）：无左右栏
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
-    Component.Explorer(),
-  ],
+  left: [],
   right: [],
 }
