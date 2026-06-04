@@ -4,7 +4,7 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "AI 与一只松鼠",
-    pageTitleSuffix: "",
+    pageTitleSuffix: " · AI 与一只松鼠",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
