@@ -9,7 +9,7 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       小红书: "https://www.xiaohongshu.com/user/profile/zhuxinyao99",
-      GitHub: "https://github.com/zhuxinyao99-jpg/ai-songshu-garden",
+      GitHub: "https://github.com/nuts-and-bytes/ai-songshu-garden",
     },
   }),
 }
