@@ -1,35 +1,18 @@
 ---
-title: AI 与一只松鼠
+title: nuts & bytes
 ---
 
-> 一个零基础编程小白，正在用 AI 把自己重做一遍，把每一步真实记录下来。🐿️
+<div class="hero-section">
+  <div class="hero-eyebrow">Personal Blog · Est. 2026</div>
+  <h1 class="hero-title">用 AI 重做自己</h1>
+  <div class="hero-divider"></div>
+  <p class="hero-tagline">零基础开始，折腾工具，记录过程</p>
+  <div class="hero-links">
+    <a href="https://www.xiaohongshu.com/user/profile/zhuxinyao99" target="_blank">小红书</a>
+    <a href="https://github.com/nuts-and-bytes" target="_blank">GitHub</a>
+  </div>
+</div>
 
----
-
-## 📝 博客 · 文章
-
-记录我用 AI 折腾生活和工作的过程——教程、心得、踩坑，都在这里。
-
-→ [[博客/index|进入博客]]
-
----
-
-## 🌿 知识库
-
-把刷过的播客、视频、论文，用 AI 整理成互相链接的知识网络。概念卡 + 来源笔记，持续生长。
-
-→ [[知识库/index|进入知识库]]
-
----
-
-## 🧰 资源推荐
-
-用过觉得好的 AI 工具、播客、书单，精选推荐，不堆砌。
-
-→ [[资源推荐/index|进入资源推荐]]
-
----
-
-## 🐿️ 关于我
-
-→ [[关于我]]
+<div class="article-list-section">
+  <div class="article-list-label">最新文章</div>
+</div>
