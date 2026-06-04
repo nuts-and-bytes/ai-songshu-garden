@@ -1,175 +1,265 @@
 @use "./base.scss";
 
-// --- Fuwari Theme Design System Optimization ---
-
+// ─── Root Tokens ───────────────────────────────────────────────
 :root {
-  --card-radius: 14px;
-  --transition-speed: 0.3s;
+  --transition-speed: 0.2s;
   --transition-bezier: cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
-// Global Scrollbar Customization
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--lightgray);
-  border-radius: 4px;
-  &:hover {
-    background: var(--gray);
-  }
-}
-
-// Page Layout & Background
+// ─── 移除圆点背景 ──────────────────────────────────────────────
 body {
   background-color: var(--light);
-  background-image: 
-    radial-gradient(var(--lightgray) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-attachment: fixed;
+  background-image: none;
 }
 
-// Desktop Card Layout for Main Content & Sidebar Components
-@media all and (min-width: 1200px) {
-  // Main Center Card
-  .center {
-    background: var(--light);
-    border: 1px solid var(--lightgray);
-    border-radius: var(--card-radius);
-    padding: 2.5rem 3rem !important;
-    box-shadow: var(--shadow-md);
-    transition: box-shadow var(--transition-speed) var(--transition-bezier),
-                border-color var(--transition-speed) var(--transition-bezier);
-    margin-top: 6rem;
-    margin-bottom: 3rem;
-    
-    &:hover {
-      box-shadow: var(--shadow-lg);
-      border-color: var(--gray);
-    }
+// ─── 滚动条 ────────────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--gray);
+  border-radius: 3px;
+  &:hover { background: var(--darkgray); }
+}
+
+// ─── 顶部导航栏 ────────────────────────────────────────────────
+#quartz-header {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+  border-bottom: 1px solid var(--lightgray);
+  background: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
+
+  h1.page-title {
+    font-family: var(--bodyFont);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dark) !important;
+    margin: 0;
+    a { color: inherit !important; text-decoration: none !important; }
   }
 
-  // Sidebar cards for widgets
-  .sidebar {
-    padding-top: 6rem !important;
-    
-    // Explorer, TOC, and Backlinks cards (with hover transform translateY)
-    & > .explorer,
-    & > .toc,
-    & > .backlinks {
-      background: var(--light);
-      border: 1px solid var(--lightgray);
-      border-radius: var(--card-radius);
-      padding: 1.5rem !important;
-      box-shadow: var(--shadow-sm);
-      transition: all var(--transition-speed) var(--transition-bezier);
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-      
+  .flex-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+}
+
+// ─── 无左侧栏时内容居中 ────────────────────────────────────────
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+// ─── Hero 区 ───────────────────────────────────────────────────
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem 3rem;
+  border-bottom: 1px solid var(--lightgray);
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    color: var(--gray);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .hero-title {
+    font-family: var(--headerFont);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin: 0 0 1rem;
+  }
+
+  .hero-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gray);
+    margin: 0 auto 1rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.85rem;
+    color: var(--tertiary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-links {
+    display: inline-flex;
+    gap: 0.6rem;
+
+    a {
+      border: 1px solid var(--gray);
+      color: var(--darkgray) !important;
+      padding: 0.3rem 0.9rem;
+      border-radius: 2px;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      text-decoration: none !important;
+      transition: border-color var(--transition-speed) ease,
+                  color var(--transition-speed) ease;
       &:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-        border-color: var(--gray);
+        border-color: var(--dark);
+        color: var(--dark) !important;
       }
     }
+  }
+}
 
-    // Graph card (no hover transform translateY to prevent canvas flashing and lag)
-    & > .graph {
-      background: var(--light);
-      border: 1px solid var(--lightgray);
-      border-radius: var(--card-radius);
-      padding: 1.5rem !important;
-      box-shadow: var(--shadow-sm);
-      transition: all var(--transition-speed) var(--transition-bezier);
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-      
-      &:hover {
-        box-shadow: var(--shadow-md);
-        border-color: var(--gray);
-      }
+// ─── 文章行列表 ────────────────────────────────────────────────
+.article-list-section {
+  .article-list-label {
+    font-size: 0.6rem;
+    color: var(--gray);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 1.2rem 0 0.7rem;
+    border-bottom: 1px solid var(--lightgray);
+    margin-bottom: 0;
+  }
+}
+
+.article-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--lightgray);
+  text-decoration: none !important;
+
+  &:last-child { border-bottom: none; }
+
+  .article-row-body { flex: 1; }
+
+  .article-row-title {
+    font-family: var(--headerFont);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark) !important;
+    line-height: 1.3;
+    margin: 0 0 0.25rem;
+    text-decoration: none !important;
+  }
+
+  .article-row-meta {
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 0.02em;
+  }
+
+  .article-row-arrow {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-left: 1.2rem;
+    flex-shrink: 0;
+    transition: color var(--transition-speed) ease,
+                transform var(--transition-speed) ease;
+  }
+
+  &:hover {
+    .article-row-title { color: var(--secondary) !important; }
+    .article-row-arrow {
+      color: var(--dark);
+      transform: translateX(3px);
     }
   }
 }
 
-// Micro-animations for Interactive Elements
-a, button, .darkmode {
-  transition: color 0.2s ease, transform 0.2s var(--transition-bezier);
-  &:active {
-    transform: scale(0.96);
+// ─── 文章页正文 ────────────────────────────────────────────────
+article {
+  h1, h2, h3, h4 {
+    font-family: var(--headerFont);
+    letter-spacing: -0.02em;
   }
 }
 
-// Premium Capsule-Style Tags
+// ─── 引用块 ────────────────────────────────────────────────────
+blockquote {
+  border-left: 2px solid var(--gray) !important;
+  border-radius: 0;
+  background: transparent;
+  padding: 0.5rem 1rem !important;
+  margin: 1.2rem 0 !important;
+  font-style: italic;
+  color: var(--darkgray);
+}
+
+// ─── 代码块 ────────────────────────────────────────────────────
+pre {
+  border-radius: 6px !important;
+  border: 1px solid var(--lightgray) !important;
+}
+
+// ─── 标签胶囊 ──────────────────────────────────────────────────
 .tag-link, .tag-list a {
   display: inline-block;
   background-color: var(--lightgray) !important;
-  color: var(--secondary) !important;
-  padding: 0.2rem 0.6rem !important;
-  border-radius: 20px !important;
-  font-size: 0.85rem !important;
-  margin-right: 0.4rem;
-  margin-bottom: 0.4rem;
+  color: var(--darkgray) !important;
+  padding: 0.15rem 0.55rem !important;
+  border-radius: 2px !important;
+  font-size: 0.75rem !important;
+  margin-right: 0.35rem;
+  margin-bottom: 0.35rem;
   border: 1px solid transparent;
-  transition: all 0.2s var(--transition-bezier) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  text-decoration: none !important;
+  transition: background-color var(--transition-speed) ease !important;
 
   &:hover {
-    background-color: var(--secondary) !important;
+    background-color: var(--gray) !important;
     color: var(--light) !important;
-    transform: translateY(-1px) scale(1.03);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   }
 
-  &::before {
-    content: "# " !important;
-    font-weight: bold;
-    opacity: 0.7;
+  &::before { content: "# "; opacity: 0.5; }
+}
+
+// ─── 搜索框 ────────────────────────────────────────────────────
+.search input[type="text"] {
+  background-color: var(--lightgray) !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  padding: 0.4rem 0.9rem 0.4rem 2.2rem !important;
+  font-size: 0.8rem !important;
+  transition: border-color var(--transition-speed) ease !important;
+  &:focus {
+    border-color: var(--gray) !important;
+    outline: none;
   }
 }
 
-// Search Input Beautification
-.search {
-  input[type="text"] {
-    background-color: var(--lightgray) !important;
-    border: 1px solid transparent !important;
-    border-radius: 20px !important;
-    padding: 0.5rem 1rem 0.5rem 2.5rem !important;
-    transition: all 0.3s var(--transition-bezier) !important;
-    
-    &:focus {
-      background-color: var(--light) !important;
-      border-color: var(--secondary) !important;
-      box-shadow: 0 0 0 3px var(--highlight) !important;
-    }
+// ─── 右侧栏 ────────────────────────────────────────────────────
+.sidebar.right {
+  .toc, .graph, .backlinks {
+    border: none;
+    background: transparent;
+    padding: 0 !important;
+    box-shadow: none;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid var(--lightgray);
+    padding-top: 1rem !important;
   }
 }
 
-// Blockquote & Code Block Enhancements
-blockquote {
-  background: var(--lightgray);
-  border-left: 4px solid var(--secondary) !important;
-  border-radius: 0 8px 8px 0;
-  padding: 0.8rem 1.2rem !important;
-  margin: 1.5rem 0 !important;
-  font-style: italic;
-}
-
-pre {
-  border-radius: 10px !important;
-  box-shadow: var(--shadow-sm);
-  transition: border-color var(--transition-speed) var(--transition-bezier);
-  
-  &:hover {
-    border-color: var(--gray);
-  }
+// ─── 页脚 ──────────────────────────────────────────────────────
+footer {
+  border-top: 1px solid var(--lightgray);
+  padding: 1rem 2rem;
+  font-size: 0.7rem;
+  color: var(--gray);
+  letter-spacing: 0.05em;
 }
