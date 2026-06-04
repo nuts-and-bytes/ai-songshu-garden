@@ -193,14 +193,41 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     {} as Record<(typeof cssVars)[number], string>,
   )
 
+  // Obsidian 风格调色板：按标签分组上色，亮/暗色背景都清晰
+  const palette = [
+    "#e07a5f", // 赤陶
+    "#3d9970", // 青绿
+    "#5b8fb9", // 天蓝
+    "#c9a227", // 金
+    "#9b5de5", // 紫
+    "#e76f9e", // 玫红
+    "#2ec4b6", // 蓝绿
+    "#f4845f", // 橙
+  ] as const
+  const tagColorCache = new Map<string, string>()
+  const colorForKey = (key: string) => {
+    const cached = tagColorCache.get(key)
+    if (cached) return cached
+    let h = 0
+    for (let i = 0; i < key.length; i++) h = (Math.imul(h, 31) + key.charCodeAt(i)) >>> 0
+    const c = palette[h % palette.length]
+    tagColorCache.set(key, c)
+    return c
+  }
+
   // calculate color
   const color = (d: NodeData) => {
-    const isCurrent = d.id === slug
-    if (isCurrent) {
+    if (d.id === slug) {
+      // 当前页：用主题强调色高亮
       return computedStyleMap["--secondary"]
-    } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
-      return computedStyleMap["--tertiary"]
+    } else if (d.id.startsWith("tags/")) {
+      // 标签节点：用标签名决定颜色
+      return colorForKey(d.id.substring(5))
+    } else if (d.tags && d.tags.length > 0) {
+      // 内容节点：用它的第一个标签决定颜色，同组同色
+      return colorForKey(d.tags[0])
     } else {
+      // 无标签：中性灰
       return computedStyleMap["--gray"]
     }
   }
@@ -416,7 +443,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
       })
 
     if (isTagNode) {
-      gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
+      gfx.stroke({ width: 2, color: color(n) })
     }
 
     nodesContainer.addChild(gfx)
