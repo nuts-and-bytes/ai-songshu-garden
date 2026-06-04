@@ -263,6 +263,78 @@ pre {
   }
 }
 
+// ─── 首页隐藏多余元信息 ────────────────────────────────────────
+body[data-slug="index"] .article-title,
+body[data-slug="index"] .content-meta,
+body[data-slug="index"] .tags {
+  display: none !important;
+}
+
+// Hero 大标题的锚点图标
+.hero-title > a[role="anchor"] {
+  display: none !important;
+}
+
+// ─── 首页 RecentNotes 样式（模拟 article-row）────────────────
+body[data-slug="index"] .recent-notes {
+  > h3 {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 1.2rem 0 0.7rem;
+    border-bottom: 1px solid var(--lightgray);
+    margin: 0;
+  }
+
+  .recent-ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .recent-li {
+    border-bottom: 1px solid var(--lightgray);
+
+    &:last-child { border-bottom: none; }
+
+    .section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .desc {
+      flex: 1;
+
+      h3 {
+        font-family: var(--headerFont);
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem;
+        line-height: 1.3;
+
+        a.internal {
+          color: var(--dark) !important;
+          text-decoration: none !important;
+          &:hover { color: var(--secondary) !important; }
+        }
+      }
+    }
+
+    .meta {
+      font-size: 0.7rem;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    .tags { display: none; }
+  }
+}
+
 // ─── 首页隐藏右侧栏，让中栏全宽 ──────────────────────────────
 body[data-slug="index"] .sidebar.right {
   display: none !important;

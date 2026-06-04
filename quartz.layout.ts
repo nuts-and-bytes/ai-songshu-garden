@@ -13,7 +13,17 @@ export const sharedPageComponents: SharedLayout = {
       ],
     }),
   ],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.RecentNotes({
+        title: "最新文章",
+        limit: 20,
+        showTags: false,
+        filter: (f) => f.slug !== "index",
+      }),
+      condition: (page) => page.fileData.slug === "index",
+    }),
+  ],
   footer: Component.Footer({
     links: {
       小红书: "https://www.xiaohongshu.com/user/profile/zhuxinyao99",

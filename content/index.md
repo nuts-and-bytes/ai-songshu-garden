@@ -12,7 +12,3 @@ title: nuts & bytes
     <a href="https://github.com/nuts-and-bytes" target="_blank">GitHub</a>
   </div>
 </div>
-
-<div class="article-list-section">
-  <div class="article-list-label">最新文章</div>
-</div>
