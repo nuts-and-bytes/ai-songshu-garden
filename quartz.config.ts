@@ -7,7 +7,10 @@ const config: QuartzConfig = {
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
-    analytics: null,
+    analytics: {
+      provider: "clarity",
+      projectId: "x1p55a8mvx",
+    },
     locale: "zh-CN",
     baseUrl: "nuts-and-bytes.github.io/ai-songshu-garden",
     ignorePatterns: ["private", "templates", ".obsidian", ".claude", ".claudian", "个人播客准备"],
