@@ -2,13 +2,6 @@
 title: nuts & bytes
 ---
 
-<div class="hero-section">
-  <div class="hero-eyebrow">Personal Blog · Est. 2026</div>
-  <h1 class="hero-title">用 AI 重做自己</h1>
-  <div class="hero-divider"></div>
-  <p class="hero-tagline">零基础开始，折腾工具，记录过程</p>
-  <div class="hero-links">
-    <a href="https://www.xiaohongshu.com/user/profile/zhuxinyao99" target="_blank">小红书</a>
-    <a href="https://github.com/nuts-and-bytes" target="_blank">GitHub</a>
-  </div>
-</div>
+<div class="hero-grid"><div class="hero-left"><div class="hero-eyebrow">PERSONAL BLOG · EST. 2026</div><h1 class="hero-title">用 AI 重做自己</h1><p class="hero-intro">一个零基础编程小白，对效率、美、科技有点执念。把用 AI 折腾工具的过程老实记下来——教程、心得、踩坑，给和我一样的人做个参考。</p><div class="hero-links"><a href="https://www.xiaohongshu.com/user/profile/zhuxinyao99" target="_blank">小红书</a><a href="https://github.com/nuts-and-bytes" target="_blank">GitHub</a></div><div class="hero-stats"><span><strong>70+</strong>篇笔记</span><span><strong>200+</strong>条双链</span><span><strong>1</strong>个会自己长大的知识库</span></div></div><div class="hero-feature"><a class="stretched-link" href="博客/如何用-Claude-Code-搭一个会自动整理的知识库"></a><div class="hero-feature-label">精选</div><h3 class="hero-feature-title">如何用 Claude Code 搭一个会自动整理的知识库</h3><p class="hero-feature-desc">丢一个链接，说句 ingest，它就自动转录、写笔记、建 Wiki、连双链——70+ 篇笔记没有一篇是我手动整理的。</p><div class="hero-feature-meta"><span>AI · 工作流 · Obsidian</span><span>2026 · 06 · 03</span></div></div></div>
+
+<div class="explore-section"><div class="explore-label">探索</div><div class="explore-grid"><div class="explore-card"><a class="stretched-link" href="博客/"></a><h3>博客</h3><p>我用 AI 折腾生活的过程，教程、心得、踩坑</p><span class="explore-arrow">→</span></div><div class="explore-card"><a class="stretched-link" href="资源推荐/"></a><h3>资源推荐</h3><p>用过觉得好的 AI 工具、播客、书单</p><span class="explore-arrow">→</span></div><div class="explore-card"><a class="stretched-link" href="关于我"></a><h3>关于我</h3><p>零基础小白的折腾笔记，欢迎来交朋友</p><span class="explore-arrow">→</span></div></div></div>

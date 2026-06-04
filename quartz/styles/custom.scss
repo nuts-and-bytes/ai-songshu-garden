@@ -94,62 +94,213 @@ body {
   }
 }
 
-// ─── Hero 区 ───────────────────────────────────────────────────
-.hero-section {
-  text-align: center;
-  padding: 4rem 2rem 3rem;
+// ─── Hero 双栏区 ───────────────────────────────────────────────
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3rem;
+  align-items: center;
+  padding: 3.5rem 0 3rem;
   border-bottom: 1px solid var(--lightgray);
+}
 
-  .hero-eyebrow {
-    font-size: 0.65rem;
+.hero-eyebrow {
+  font-size: 0.65rem;
+  color: var(--gray);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.hero-title {
+  font-family: var(--headerFont);
+  font-size: 2.9rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.3rem;
+}
+
+.hero-intro {
+  font-size: 0.92rem;
+  color: var(--darkgray);
+  line-height: 1.8;
+  margin: 0 0 1.6rem;
+  max-width: 30em;
+}
+
+.hero-links {
+  display: inline-flex;
+  gap: 0.6rem;
+  margin-bottom: 1.8rem;
+
+  a {
+    border: 1px solid var(--gray);
+    color: var(--darkgray) !important;
+    padding: 0.4rem 1.1rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-decoration: none !important;
+    transition: border-color var(--transition-speed) ease,
+                color var(--transition-speed) ease,
+                background-color var(--transition-speed) ease;
+    &:first-child {
+      background: var(--dark);
+      color: var(--light) !important;
+      border-color: var(--dark);
+    }
+    &:hover {
+      border-color: var(--dark);
+      color: var(--dark) !important;
+    }
+    &:first-child:hover {
+      opacity: 0.85;
+      color: var(--light) !important;
+    }
+  }
+}
+
+.hero-stats {
+  display: flex;
+  gap: 1.8rem;
+  font-size: 0.72rem;
+  color: var(--gray);
+  letter-spacing: 0.02em;
+
+  strong {
+    font-family: var(--headerFont);
+    font-size: 1.05rem;
+    color: var(--dark);
+    margin-right: 0.25rem;
+    font-weight: 700;
+  }
+}
+
+// ─── 精选文章卡（Hero 右栏）────────────────────────────────────
+.stretched-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: none !important;
+}
+
+.hero-feature {
+  position: relative;
+  display: block;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  padding: 1.6rem;
+  background: var(--light);
+  text-decoration: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
+
+  .hero-feature-label {
+    display: inline-block;
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    border: 1px solid var(--lightgray);
+    border-radius: 2px;
+    padding: 0.12rem 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-feature-title {
+    font-family: var(--headerFont);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark) !important;
+    line-height: 1.35;
+    margin: 0 0 0.7rem;
+  }
+
+  .hero-feature-desc {
+    font-size: 0.8rem;
+    color: var(--darkgray);
+    line-height: 1.65;
+    margin: 0 0 1.2rem;
+  }
+
+  .hero-feature-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.66rem;
+    color: var(--gray);
+    letter-spacing: 0.03em;
+  }
+
+  &:hover {
+    border-color: var(--gray);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    .hero-feature-title { color: var(--secondary) !important; }
+  }
+}
+
+// ─── 探索导航卡 ────────────────────────────────────────────────
+.explore-section {
+  padding: 2.5rem 0 1rem;
+
+  .explore-label {
+    font-size: 0.6rem;
     color: var(--gray);
     letter-spacing: 0.25em;
     text-transform: uppercase;
     margin-bottom: 1.2rem;
   }
 
-  .hero-title {
-    font-family: var(--headerFont);
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: var(--dark);
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    margin: 0 0 1rem;
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
 
-  .hero-divider {
-    width: 40px;
-    height: 1px;
-    background: var(--gray);
-    margin: 0 auto 1rem;
-  }
+  .explore-card {
+    position: relative;
+    border: 1px solid var(--lightgray);
+    border-radius: 6px;
+    padding: 1.4rem;
+    text-decoration: none !important;
+    background: var(--light);
+    transition: border-color var(--transition-speed) ease,
+                transform var(--transition-speed) ease;
 
-  .hero-tagline {
-    font-size: 0.85rem;
-    color: var(--tertiary);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
+    h3 {
+      font-family: var(--headerFont);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark) !important;
+      margin: 0 0 0.5rem;
+    }
 
-  .hero-links {
-    display: inline-flex;
-    gap: 0.6rem;
+    p {
+      font-size: 0.76rem;
+      color: var(--gray);
+      line-height: 1.6;
+      margin: 0 2rem 0 0;
+    }
 
-    a {
-      border: 1px solid var(--gray);
-      color: var(--darkgray) !important;
-      padding: 0.3rem 0.9rem;
-      border-radius: 2px;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-      text-decoration: none !important;
-      transition: border-color var(--transition-speed) ease,
-                  color var(--transition-speed) ease;
-      &:hover {
-        border-color: var(--dark);
-        color: var(--dark) !important;
-      }
+    .explore-arrow {
+      position: absolute;
+      top: 1.4rem;
+      right: 1.4rem;
+      color: var(--gray);
+      font-size: 0.95rem;
+      transition: color var(--transition-speed) ease,
+                  transform var(--transition-speed) ease;
+    }
+
+    &:hover {
+      border-color: var(--gray);
+      transform: translateY(-2px);
+      h3 { color: var(--secondary) !important; }
+      .explore-arrow { color: var(--dark); transform: translateX(3px); }
     }
   }
 }
@@ -210,6 +361,18 @@ body {
       color: var(--dark);
       transform: translateX(3px);
     }
+  }
+}
+
+// ─── Hero / 探索 响应式 ────────────────────────────────────────
+@media all and (max-width: 800px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2.5rem 0 2rem;
+  }
+  .explore-section .explore-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -348,7 +511,7 @@ body[data-slug="index"] .sidebar.right {
 
 @media all and (min-width: 1200px) {
   body[data-slug="index"] #quartz-body {
-    grid-template-columns: minmax(0, 720px);
+    grid-template-columns: minmax(0, 920px);
     grid-template-areas:
       "grid-header"
       "grid-center"
