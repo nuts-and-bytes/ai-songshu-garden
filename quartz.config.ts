@@ -3,8 +3,8 @@ import * as Plugin from "./quartz/plugins"
 
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "AI 与一只松鼠",
-    pageTitleSuffix: " · AI 与一只松鼠",
+    pageTitle: "nuts & bytes",
+    pageTitleSuffix: " · nuts & bytes",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
@@ -25,14 +25,26 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#f2f4f5", lightgray: "#e5ebef", gray: "#9fb0c8", darkgray: "#5f6d78",
-          dark: "#0a1f3d", secondary: "#315d93", tertiary: "#6aa6e8",
-          highlight: "rgba(49, 93, 147, 0.12)", textHighlight: "#fff23688",
+          light: "#fafaf8",
+          lightgray: "#f0ece4",
+          gray: "#c0b8a8",
+          darkgray: "#555550",
+          dark: "#1a1a18",
+          secondary: "#1a1a18",
+          tertiary: "#888880",
+          highlight: "rgba(26,26,24,0.06)",
+          textHighlight: "#f0e8d088",
         },
         darkMode: {
-          light: "#10151f", lightgray: "#283143", gray: "#5f6d78", darkgray: "#aebbd0",
-          dark: "#e8eef6", secondary: "#6aa6e8", tertiary: "#4fd1a5",
-          highlight: "rgba(106, 166, 232, 0.12)", textHighlight: "#b3aa0288",
+          light: "#0f0e0c",
+          lightgray: "#1e1d1a",
+          gray: "#3a3830",
+          darkgray: "#888880",
+          dark: "#e8e4dc",
+          secondary: "#e8e4dc",
+          tertiary: "#666660",
+          highlight: "rgba(232,228,220,0.06)",
+          textHighlight: "#4a3a2088",
         },
       },
     },
