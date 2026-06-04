@@ -36,9 +36,6 @@ export default (() => {
     )
     const ogImageDefaultPath = `https://${cfg.baseUrl}/static/og-image.png`
 
-    const clarityProjectId =
-      cfg.analytics?.provider === "clarity" ? cfg.analytics.projectId : undefined
-
     return (
       <head>
         <title>{title}</title>
@@ -88,15 +85,6 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
-
-        {clarityProjectId && (
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarityProjectId}");`,
-            }}
-          />
-        )}
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

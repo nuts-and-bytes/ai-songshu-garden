@@ -8,8 +8,8 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
-      provider: "clarity",
-      projectId: "x1p55a8mvx",
+      provider: "goatcounter",
+      websiteId: "nuts-and-bytes",
     },
     locale: "zh-CN",
     baseUrl: "nuts-and-bytes.github.io/ai-songshu-garden",
