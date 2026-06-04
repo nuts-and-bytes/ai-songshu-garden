@@ -19,7 +19,7 @@ export const sharedPageComponents: SharedLayout = {
         title: "最新文章",
         limit: 20,
         showTags: false,
-        filter: (f) => f.slug !== "index",
+        filter: (f) => (f.slug?.startsWith("博客/") ?? false) && f.slug !== "博客/index",
       }),
       condition: (page) => page.fileData.slug === "index",
     }),
@@ -39,9 +39,18 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.Breadcrumbs(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
+    Component.ConditionalRender({
+      component: Component.ArticleTitle(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.ContentMeta(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.TagList(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
   ],
   left: [],
   right: [
