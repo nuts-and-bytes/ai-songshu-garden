@@ -24,6 +24,7 @@ import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import GithubCTA from "./GithubCTA"
+import ReadCount from "./ReadCount"
 
 export {
   ArticleTitle,
@@ -52,4 +53,5 @@ export {
   Flex,
   ConditionalRender,
   GithubCTA,
+  ReadCount,
 }

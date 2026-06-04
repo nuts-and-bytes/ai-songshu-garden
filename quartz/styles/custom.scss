@@ -592,3 +592,15 @@ footer {
     }
   }
 }
+
+// 阅读量徽章(文章顶部)
+.read-count {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-top: 0.3rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
