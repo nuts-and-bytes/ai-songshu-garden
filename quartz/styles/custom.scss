@@ -21,20 +21,19 @@ body {
   &:hover { background: var(--darkgray); }
 }
 
-// ─── 顶部导航栏 ────────────────────────────────────────────────
-#quartz-header {
-  display: flex !important;
-  align-items: center;
+// ─── 导航栏（.page-header > header）──────────────────────────
+// Header.tsx 已是 flex row；只需覆盖间距、字号、下边框
+.page-header {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.page-header > header {
   justify-content: space-between;
-  padding: 0 2rem;
-  height: 56px;
+  margin: 0 !important;
+  padding: 1rem 0 !important;
   border-bottom: 1px solid var(--lightgray);
-  background: var(--light);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  box-sizing: border-box;
+  gap: 1rem;
 
   h1.page-title {
     font-family: var(--bodyFont);
@@ -44,6 +43,7 @@ body {
     text-transform: uppercase;
     color: var(--dark) !important;
     margin: 0;
+    flex: unset;
     a { color: inherit !important; text-decoration: none !important; }
   }
 
@@ -55,11 +55,32 @@ body {
   }
 }
 
-// ─── 无左侧栏时内容居中 ────────────────────────────────────────
-.page {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
+// popover-hint（beforeBody：面包屑、文章标题等）与导航分离
+.page-header > .popover-hint {
+  margin-top: 2rem;
+}
+
+// ─── 折叠空左侧栏，调整 grid 列 ──────────────────────────────
+.sidebar.left {
+  display: none !important;
+  width: 0 !important;
+  padding: 0 !important;
+}
+
+@media all and (min-width: 1200px) {
+  #quartz-body {
+    grid-template-columns: auto 320px;
+    grid-template-areas:
+      "grid-header grid-sidebar-right"
+      "grid-center grid-sidebar-right"
+      "grid-footer grid-sidebar-right";
+  }
+}
+
+@media all and (min-width: 800px) and (max-width: 1200px) {
+  #quartz-body {
+    grid-template-columns: auto;
+  }
 }
 
 // ─── Hero 区 ───────────────────────────────────────────────────
