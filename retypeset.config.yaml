@@ -1,0 +1,62 @@
+site:
+  title: nuts & bytes
+  subtitle: 静水流深
+  description: 一个零基础编程用户用 AI 折腾工具、工作流与生活的个人博客。
+  i18nTitle: false
+  author: nuts & bytes
+  url: https://nuts-and-bytes.github.io
+  base: /ai-songshu-garden
+  favicon: /icons/favicon.svg
+
+color:
+  mode: light
+
+global:
+  locale: zh
+  moreLocales:
+    - en
+    - ja
+  fontStyle: sans
+  dateFormat: YYYY-MM-DD
+  toc: true
+  katex: true
+  reduceMotion: false
+
+comment:
+  enabled: false
+
+seo:
+  person:
+    email: zxy200204@126.com
+    sameAs:
+      - https://github.com/nuts-and-bytes
+      - https://nuts-and-bytes.github.io/portfolio/
+      - https://t.me/ericlibro
+      - https://www.xiaohongshu.com/user/profile/zhuxinyao99
+  llms:
+    featured:
+      - 如何用-claude-code-搭一个会自动整理的知识库
+
+footer:
+  links:
+    - name: RSS
+      url: /atom.xml
+    - name: GitHub
+      url: https://github.com/nuts-and-bytes
+    - name: Portfolio
+      url: https://nuts-and-bytes.github.io/portfolio/
+    - name: 小红书
+      url: https://www.xiaohongshu.com/user/profile/zhuxinyao99
+  startYear: 2026
+
+collections:
+  posts:
+    enabled: true
+  notes:
+    enabled: true
+    intro:
+      zh: 用过觉得好的东西，才放上来。不堆砌，只精选。
+  journals:
+    enabled: true
+    intro:
+      zh: 日常记录，保持原始与诚实。

@@ -435,7 +435,10 @@ Replace `public/icons/favicon.svg` with:
 Generate the PNG consumed by the OG route:
 
 ```bash
-magick -background none public/icons/favicon.svg -resize 512x512 public/icons/og-logo.png
+node --input-type=module - <<'NODE'
+import sharp from 'sharp'
+await sharp('public/icons/favicon.svg').resize(512, 512).png().toFile('public/icons/og-logo.png')
+NODE
 ```
 
 - [ ] **Step 7: Run the test and verify green**
