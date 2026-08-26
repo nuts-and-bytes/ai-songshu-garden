@@ -250,6 +250,7 @@ test('uses only approved footer links', () => {
 
 test('deploy workflow builds dist with pnpm and runs tests', () => {
   assert.match(workflow, /pnpm\/action-setup@v4/)
+  assert.match(workflow, /actions\/configure-pages@v5/)
   assert.match(workflow, /pnpm install --frozen-lockfile/)
   assert.match(workflow, /pnpm test:unit/)
   assert.match(workflow, /pnpm build/)
@@ -376,6 +377,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - uses: actions/configure-pages@v5
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:unit
       - run: pnpm build

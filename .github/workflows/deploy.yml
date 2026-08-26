@@ -27,9 +27,13 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - uses: actions/configure-pages@v5
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:unit
       - run: pnpm build
+      - run: pnpm test:artifacts
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

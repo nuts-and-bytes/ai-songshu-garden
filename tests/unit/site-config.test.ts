@@ -40,9 +40,13 @@ test('uses only approved footer links', () => {
 
 test('deploy workflow builds dist with pnpm and runs tests', () => {
   assert.match(workflow, /pnpm\/action-setup@v4/)
+  assert.match(workflow, /actions\/configure-pages@v5/)
   assert.match(workflow, /pnpm install --frozen-lockfile/)
   assert.match(workflow, /pnpm test:unit/)
   assert.match(workflow, /pnpm build/)
+  assert.match(workflow, /pnpm test:artifacts/)
+  assert.match(workflow, /playwright install --with-deps chromium/)
+  assert.match(workflow, /pnpm test:e2e/)
   assert.match(workflow, /path: dist/)
   assert.doesNotMatch(workflow, /quartz/)
 })
