@@ -1444,12 +1444,13 @@ test('copies code, zooms images, and returns through article history', async ({ 
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto(`${base}/`)
   await page.locator('a[href*="/posts/"]').click()
-  await expect(page).toHaveURL(new RegExp(`/posts/${slug}$`))
+  await expect.poll(() => decodeURI(new URL(page.url()).pathname)).toBe(article)
 
   const firstCode = page.locator('pre code').first()
   const expectedCode = await firstCode.textContent()
-  await firstCode.locator('xpath=..').locator('.code-copy-button').click()
-  await expect(firstCode.locator('xpath=..').locator('.code-copy-button')).toHaveClass(/copied/)
+  const codeBlock = firstCode.locator('xpath=../..')
+  await codeBlock.locator('.code-copy-button').click()
+  await expect(codeBlock.locator('.code-copy-button')).toHaveClass(/copied/)
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(expectedCode)
 
   await page.evaluate(() => {
@@ -1593,7 +1594,7 @@ test('redirects every representative legacy route to its canonical page', async 
 test('keeps legacy tag html URLs as real canonical tag pages', async ({ page }) => {
   const response = await page.goto(`${base}/tags/AI.html`)
   expect(response?.status()).toBe(200)
-  await expect(page).toHaveTitle(/AI/)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(1)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://nuts-and-bytes.github.io/ai-songshu-garden/tags/AI',
@@ -1634,6 +1635,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests',
+  testMatch: '**/*.spec.ts',
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -1729,6 +1731,14 @@ if (isRSS) {
 }
 ```
 
+The standalone build also exposes duplicate route registration. In `integration.ts`, detect direct-source mode:
+
+```ts
+const isStandalone = resolvePath(projectRoot) === resolvePath(themePath('./'))
+```
+
+Wrap the built-in injection block from `/404` through `/llms-full.txt` in `if (!isStandalone)`. Keep dynamic collection injection outside the guard because `_dynamic` pages are intentionally injected even in standalone mode.
+
 Run:
 
 ```bash
@@ -1736,7 +1746,7 @@ pnpm build
 pnpm test:e2e --grep 'Pagefind search|complete navigation'
 ```
 
-Expected: PASS, and the footer link ends in `atom.xml`, never `atom.xm`. For other remaining failures, permitted files are limited to:
+Expected: PASS, the footer link ends in `atom.xml` rather than `atom.xm`, and build output has no `defined in both` or `conflicts with higher priority` route warnings. For other remaining failures, permitted files are limited to:
 
 ```text
 integration.ts

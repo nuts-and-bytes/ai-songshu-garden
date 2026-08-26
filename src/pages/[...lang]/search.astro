@@ -1,5 +1,5 @@
 ---
-import { allLocales } from '@/config'
+import { allLocales, base } from '@/config'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
 import { ui } from '@/i18n/ui'
 import Layout from '@/layouts/Layout.astro'
@@ -24,8 +24,8 @@ const currentUI = ui[currentLang as keyof typeof ui] ?? {}
   </div>
 </Layout>
 
-<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-<script is:inline src="/pagefind/pagefind-ui.js" type="text/javascript"></script>
+<link href={`${base}/pagefind/pagefind-ui.css`} rel="stylesheet" />
+<script is:inline src={`${base}/pagefind/pagefind-ui.js`} type="text/javascript"></script>
 <script is:inline>
   window.addEventListener('DOMContentLoaded', () => {
     new PagefindUI({

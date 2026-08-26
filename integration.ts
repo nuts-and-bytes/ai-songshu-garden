@@ -1,12 +1,12 @@
 import type { AstroIntegration } from 'astro'
+import { existsSync, readFileSync } from 'node:fs'
+import { isAbsolute, resolve as resolvePath } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import mdx from '@astrojs/mdx'
 import partytown from '@astrojs/partytown'
 import sitemap from '@astrojs/sitemap'
 import Compress from 'astro-compress'
 import pagefind from 'astro-pagefind'
-import { existsSync, readFileSync } from 'node:fs'
-import { isAbsolute, resolve as resolvePath } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import rehypeKatex from 'rehype-katex'
 import rehypeMermaid from 'rehype-mermaid'
 import rehypeSlug from 'rehype-slug'
@@ -175,7 +175,6 @@ export const JOURNALS_PER_PAGE = 7
           enabledBuiltIns.includes(name)
 
         if (skippedFolders.length > 0) {
-          // eslint-disable-next-line no-console
           console.warn(
             `[retypeset-odyssey] Skipped content folders with unsupported names: ${skippedFolders.join(', ')}. `
             + `Folder names must match /^[a-zA-Z0-9][a-zA-Z0-9-]*$/ and must not be \`about\`.`,
@@ -191,65 +190,71 @@ export const dynamicCollections = ${JSON.stringify(dynamicFolders)}
 `
 
         // --- 3. Inject all theme pages ---
+        // In standalone mode these files already live under the project's
+        // src/pages directory, so injecting them would register every route
+        // twice. Package consumers still need the integration to inject them.
+        const isStandalone = resolvePath(projectRoot) === resolvePath(themePath('./'))
 
-        // 404
-        injectRoute({ pattern: '/404', entrypoint: themeUrl('./src/pages/404.astro'), prerender: true })
+        if (!isStandalone) {
+          // 404
+          injectRoute({ pattern: '/404', entrypoint: themeUrl('./src/pages/404.astro'), prerender: true })
 
-        // Homepage / paginated index
-        injectRoute({ pattern: '/[...lang]/[...page]', entrypoint: themeUrl('./src/pages/[...lang]/[...page].astro'), prerender: true })
+          // Homepage / paginated index
+          injectRoute({ pattern: '/[...lang]/[...page]', entrypoint: themeUrl('./src/pages/[...lang]/[...page].astro'), prerender: true })
 
-        // About
-        injectRoute({ pattern: '/[...lang]/about', entrypoint: themeUrl('./src/pages/[...lang]/about.astro'), prerender: true })
+          // About
+          injectRoute({ pattern: '/[...lang]/about', entrypoint: themeUrl('./src/pages/[...lang]/about.astro'), prerender: true })
 
-        // Feeds
-        injectRoute({ pattern: '/[...lang]/atom.xml', entrypoint: themeUrl('./src/pages/[...lang]/atom.xml.ts'), prerender: true })
-        injectRoute({ pattern: '/[...lang]/rss.xml', entrypoint: themeUrl('./src/pages/[...lang]/rss.xml.ts'), prerender: true })
+          // Feeds
+          injectRoute({ pattern: '/[...lang]/atom.xml', entrypoint: themeUrl('./src/pages/[...lang]/atom.xml.ts'), prerender: true })
+          injectRoute({ pattern: '/[...lang]/rss.xml', entrypoint: themeUrl('./src/pages/[...lang]/rss.xml.ts'), prerender: true })
 
-        // Categories
-        injectRoute({ pattern: '/[...lang]/categories', entrypoint: themeUrl('./src/pages/[...lang]/categories/index.astro'), prerender: true })
-        injectRoute({ pattern: '/[...lang]/categories/[cat]', entrypoint: themeUrl('./src/pages/[...lang]/categories/[cat].astro'), prerender: true })
+          // Categories
+          injectRoute({ pattern: '/[...lang]/categories', entrypoint: themeUrl('./src/pages/[...lang]/categories/index.astro'), prerender: true })
+          injectRoute({ pattern: '/[...lang]/categories/[cat]', entrypoint: themeUrl('./src/pages/[...lang]/categories/[cat].astro'), prerender: true })
 
-        // Posts (always injected; disabling `posts` only suppresses the navbar
-        // entry — the homepage and tag pages still depend on the collection).
-        if (builtInEnabled('posts')) {
-          injectRoute({ pattern: '/[...lang]/posts/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/posts/[slug].astro'), prerender: true })
+          // Posts (always injected; disabling `posts` only suppresses the navbar
+          // entry — the homepage and tag pages still depend on the collection).
+          if (builtInEnabled('posts')) {
+            injectRoute({ pattern: '/[...lang]/posts/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/posts/[slug].astro'), prerender: true })
+          }
+
+          // Notes
+          if (builtInEnabled('notes')) {
+            injectRoute({ pattern: '/[...lang]/notes/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/notes/[slug].astro'), prerender: true })
+            injectRoute({ pattern: '/[...lang]/notes', entrypoint: themeUrl('./src/pages/[...lang]/notes/index.astro'), prerender: true })
+            injectRoute({ pattern: '/[...lang]/notes/page/[page]', entrypoint: themeUrl('./src/pages/[...lang]/notes/page/[page].astro'), prerender: true })
+          }
+
+          // Journals
+          if (builtInEnabled('journals')) {
+            injectRoute({ pattern: '/[...lang]/journals/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/journals/[slug].astro'), prerender: true })
+            injectRoute({ pattern: '/[...lang]/journals', entrypoint: themeUrl('./src/pages/[...lang]/journals/index.astro'), prerender: true })
+            injectRoute({ pattern: '/[...lang]/journals/page/[page]', entrypoint: themeUrl('./src/pages/[...lang]/journals/page/[page].astro'), prerender: true })
+          }
+
+          // Search
+          injectRoute({ pattern: '/[...lang]/search', entrypoint: themeUrl('./src/pages/[...lang]/search.astro'), prerender: true })
+
+          // Timeline: mixed chronological feed of posts + notes + journals,
+          // grouped by year. Lives at `/timeline` (and `/{lang}/timeline`).
+          injectRoute({ pattern: '/[...lang]/timeline', entrypoint: themeUrl('./src/pages/[...lang]/timeline.astro'), prerender: true })
+
+          // Tags
+          injectRoute({ pattern: '/[...lang]/tags', entrypoint: themeUrl('./src/pages/[...lang]/tags/index.astro'), prerender: true })
+          injectRoute({ pattern: '/[...lang]/tags/[tag]', entrypoint: themeUrl('./src/pages/[...lang]/tags/[tag].astro'), prerender: true })
+
+          // OG images
+          injectRoute({ pattern: '/og/[...image]', entrypoint: themeUrl('./src/pages/og/[...image].ts'), prerender: true })
+
+          // robots.txt
+          injectRoute({ pattern: '/robots.txt', entrypoint: themeUrl('./src/pages/robots.txt.ts'), prerender: true })
+
+          // llms.txt — content index for AI agents/crawlers (https://llmstxt.org).
+          // `/llms.txt` is the link index; `/llms-full.txt` inlines every post body.
+          injectRoute({ pattern: '/llms.txt', entrypoint: themeUrl('./src/pages/llms.txt.ts'), prerender: true })
+          injectRoute({ pattern: '/llms-full.txt', entrypoint: themeUrl('./src/pages/llms-full.txt.ts'), prerender: true })
         }
-
-        // Notes
-        if (builtInEnabled('notes')) {
-          injectRoute({ pattern: '/[...lang]/notes/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/notes/[slug].astro'), prerender: true })
-          injectRoute({ pattern: '/[...lang]/notes', entrypoint: themeUrl('./src/pages/[...lang]/notes/index.astro'), prerender: true })
-          injectRoute({ pattern: '/[...lang]/notes/page/[page]', entrypoint: themeUrl('./src/pages/[...lang]/notes/page/[page].astro'), prerender: true })
-        }
-
-        // Journals
-        if (builtInEnabled('journals')) {
-          injectRoute({ pattern: '/[...lang]/journals/[slug]', entrypoint: themeUrl('./src/pages/[...lang]/journals/[slug].astro'), prerender: true })
-          injectRoute({ pattern: '/[...lang]/journals', entrypoint: themeUrl('./src/pages/[...lang]/journals/index.astro'), prerender: true })
-          injectRoute({ pattern: '/[...lang]/journals/page/[page]', entrypoint: themeUrl('./src/pages/[...lang]/journals/page/[page].astro'), prerender: true })
-        }
-
-        // Search
-        injectRoute({ pattern: '/[...lang]/search', entrypoint: themeUrl('./src/pages/[...lang]/search.astro'), prerender: true })
-
-        // Timeline: mixed chronological feed of posts + notes + journals,
-        // grouped by year. Lives at `/timeline` (and `/{lang}/timeline`).
-        injectRoute({ pattern: '/[...lang]/timeline', entrypoint: themeUrl('./src/pages/[...lang]/timeline.astro'), prerender: true })
-
-        // Tags
-        injectRoute({ pattern: '/[...lang]/tags', entrypoint: themeUrl('./src/pages/[...lang]/tags/index.astro'), prerender: true })
-        injectRoute({ pattern: '/[...lang]/tags/[tag]', entrypoint: themeUrl('./src/pages/[...lang]/tags/[tag].astro'), prerender: true })
-
-        // OG images
-        injectRoute({ pattern: '/og/[...image]', entrypoint: themeUrl('./src/pages/og/[...image].ts'), prerender: true })
-
-        // robots.txt
-        injectRoute({ pattern: '/robots.txt', entrypoint: themeUrl('./src/pages/robots.txt.ts'), prerender: true })
-
-        // llms.txt — content index for AI agents/crawlers (https://llmstxt.org).
-        // `/llms.txt` is the link index; `/llms-full.txt` inlines every post body.
-        injectRoute({ pattern: '/llms.txt', entrypoint: themeUrl('./src/pages/llms.txt.ts'), prerender: true })
-        injectRoute({ pattern: '/llms-full.txt', entrypoint: themeUrl('./src/pages/llms-full.txt.ts'), prerender: true })
 
         // Dynamic folder routes. A single list pattern + single detail
         // pattern cover all discovered folders; `getStaticPaths` in the
