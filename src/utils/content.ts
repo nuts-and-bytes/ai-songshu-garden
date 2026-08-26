@@ -1,8 +1,9 @@
 import type { CollectionEntry } from 'astro:content'
 import type { Language } from '@/i18n/config'
-import type { Journal, Note, Post } from '@/types'
+import type { Journal, Note, Post, RenderedJournal, RenderedNote, RenderedPost } from '@/types'
 import { getCollection, render } from 'astro:content'
 import { allLocales, defaultLocale } from '@/config'
+import { resolveLocalizedEntry } from '@/i18n/fallback'
 import { memoize } from '@/utils/cache'
 
 const metaCache = new Map<string, { minutes: number }>()
@@ -195,7 +196,7 @@ export function getNoteSlug(note: CollectionEntry<'notes'>): string {
   return slugifyPathSegment(note.data.slug || baseId) || baseId
 }
 
-async function addMetaToNote(note: CollectionEntry<'notes'>): Promise<Note> {
+async function addMetaToNote(note: CollectionEntry<'notes'>): Promise<RenderedNote> {
   const cacheKey = `${note.id}-${note.data.lang || 'universal'}`
   const cachedMeta = noteMetaCache.get(cacheKey)
   if (cachedMeta) {
@@ -218,11 +219,19 @@ async function addMetaToNote(note: CollectionEntry<'notes'>): Promise<Note> {
 async function _getNotes(lang?: Language) {
   const currentLang = lang && allLocales.includes(lang) ? lang : defaultLocale
   const groups = await getNoteGroups()
-  const selected = groups
-    .map(group => group.byLang[currentLang])
-    .filter(Boolean) as CollectionEntry<'notes'>[]
+  const selected = groups.flatMap((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, currentLang, defaultLocale)
+    return resolution.entry && resolution.sourceLang ? [resolution] : []
+  })
 
-  const enhancedNotes = await Promise.all(selected.map(addMetaToNote))
+  const enhancedNotes = await Promise.all(selected.map(async resolution => ({
+    ...(await addMetaToNote(resolution.entry!)),
+    localization: {
+      requestedLang: resolution.requestedLang,
+      sourceLang: resolution.sourceLang!,
+      isFallback: resolution.isFallback,
+    },
+  })))
 
   const getSortKey = (note: CollectionEntry<'notes'>) =>
     (note.data.updated ?? note.data.published).valueOf()
@@ -326,7 +335,7 @@ export function getJournalSlug(journal: CollectionEntry<'journals'>): string {
   return slugifyPathSegment(journal.data.slug || baseId) || baseId
 }
 
-async function addMetaToJournal(journal: CollectionEntry<'journals'>): Promise<Journal> {
+async function addMetaToJournal(journal: CollectionEntry<'journals'>): Promise<RenderedJournal> {
   const cacheKey = `${journal.id}-${journal.data.lang || 'universal'}`
   const cachedMeta = journalMetaCache.get(cacheKey)
   if (cachedMeta) {
@@ -349,11 +358,19 @@ async function addMetaToJournal(journal: CollectionEntry<'journals'>): Promise<J
 async function _getJournals(lang?: Language) {
   const currentLang = lang && allLocales.includes(lang) ? lang : defaultLocale
   const groups = await getJournalGroups()
-  const selected = groups
-    .map(group => group.byLang[currentLang])
-    .filter(Boolean) as CollectionEntry<'journals'>[]
+  const selected = groups.flatMap((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, currentLang, defaultLocale)
+    return resolution.entry && resolution.sourceLang ? [resolution] : []
+  })
 
-  const enhancedJournals = await Promise.all(selected.map(addMetaToJournal))
+  const enhancedJournals = await Promise.all(selected.map(async resolution => ({
+    ...(await addMetaToJournal(resolution.entry!)),
+    localization: {
+      requestedLang: resolution.requestedLang,
+      sourceLang: resolution.sourceLang!,
+      isFallback: resolution.isFallback,
+    },
+  })))
 
   const getSortKey = (journal: CollectionEntry<'journals'>) =>
     (journal.data.updated ?? journal.data.published).valueOf()
@@ -441,7 +458,7 @@ export function getPostPath(post: CollectionEntry<'posts'>, langPrefix?: string)
  * @param post The post to enhance with metadata
  * @returns Enhanced post with reading time information
  */
-async function addMetaToPost(post: CollectionEntry<'posts'>): Promise<Post> {
+async function addMetaToPost(post: CollectionEntry<'posts'>): Promise<RenderedPost> {
   const cacheKey = `${post.id}-${post.data.lang || 'universal'}`
   const cachedMeta = metaCache.get(cacheKey)
   if (cachedMeta) {
@@ -506,11 +523,19 @@ export async function checkPostSlugDuplication(posts: CollectionEntry<'posts'>[]
 async function _getPosts(lang?: Language) {
   const currentLang = lang && allLocales.includes(lang) ? lang : defaultLocale
   const groups = await getPostGroups()
-  const selected = groups
-    .map(group => group.byLang[currentLang])
-    .filter(Boolean) as CollectionEntry<'posts'>[]
+  const selected = groups.flatMap((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, currentLang, defaultLocale)
+    return resolution.entry && resolution.sourceLang ? [resolution] : []
+  })
 
-  const enhancedPosts = await Promise.all(selected.map(addMetaToPost))
+  const enhancedPosts = await Promise.all(selected.map(async resolution => ({
+    ...(await addMetaToPost(resolution.entry!)),
+    localization: {
+      requestedLang: resolution.requestedLang,
+      sourceLang: resolution.sourceLang!,
+      isFallback: resolution.isFallback,
+    },
+  })))
 
   return enhancedPosts.sort((a, b) =>
     b.data.published.valueOf() - a.data.published.valueOf(),
@@ -667,10 +692,11 @@ export const getPostsByTag = memoize(_getPostsByTag)
  * @returns Array of language codes that support the specified tag
  */
 async function _getTagSupportedLangs(tag: string): Promise<Language[]> {
-  const groups = await getPostGroups()
-  return allLocales.filter(locale =>
-    groups.some(group => group.byLang[locale]?.data.tags?.includes(tag)),
-  )
+  const checks = await Promise.all(allLocales.map(async locale => ({
+    locale,
+    matches: (await getPosts(locale)).some(post => post.data.tags?.includes(tag)),
+  })))
+  return checks.filter(check => check.matches).map(check => check.locale)
 }
 
 export const getTagSupportedLangs = memoize(_getTagSupportedLangs)
@@ -684,21 +710,6 @@ export const getTagSupportedLangs = memoize(_getTagSupportedLangs)
  * @returns Posts filtered by category (and language for non-science), sorted by date
  */
 async function _getPostsByCategory(category: PostCategory, lang?: Language) {
-  // Science category shows all posts regardless of language
-  if (category === 'science') {
-    const allPosts = await getCollection(
-      'posts',
-      ({ data }: CollectionEntry<'posts'>) => {
-        return import.meta.env.DEV || !data.draft
-      },
-    )
-    const enhancedPosts = await Promise.all(allPosts.map(addMetaToPost))
-    return enhancedPosts
-      .filter(post => getPostCategory(post) === category)
-      .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf())
-  }
-
-  // Tech and Life categories filter by language
   const posts = await getPosts(lang)
   return posts.filter(post => getPostCategory(post) === category)
 }
@@ -736,19 +747,11 @@ export const getCategoriesWithCounts = memoize(_getCategoriesWithCounts)
  * @returns Array of language codes that have posts in the specified category
  */
 async function _getCategorySupportedLangs(category: PostCategory): Promise<Language[]> {
-  const posts = await getCollection(
-    'posts',
-    ({ data }) => !data.draft,
-  )
-  const { allLocales } = await import('@/config')
-
-  return allLocales.filter(locale =>
-    posts.some((post) => {
-      const postCategory = getPostCategory(post)
-      return postCategory === category
-        && (post.data.lang === locale || post.data.lang === '')
-    }),
-  )
+  const checks = await Promise.all(allLocales.map(async locale => ({
+    locale,
+    matches: (await getPosts(locale)).some(post => getPostCategory(post) === category),
+  })))
+  return checks.filter(check => check.matches).map(check => check.locale)
 }
 
 export const getCategorySupportedLangs = memoize(_getCategorySupportedLangs)
@@ -859,6 +862,7 @@ export interface TimelineEntry {
   title: string
   date: Date
   href: string
+  isFallback: boolean
 }
 
 /**
@@ -884,6 +888,7 @@ async function _getTimelineByYear(lang?: Language): Promise<Map<number, Timeline
       title: p.data.title,
       date: p.data.published,
       href: getPostPath(getPostSlug(p), langKey),
+      isFallback: p.localization.isFallback,
     })),
     ...notes.map((n: Note): TimelineEntry => ({
       kind: 'notes',
@@ -891,6 +896,7 @@ async function _getTimelineByYear(lang?: Language): Promise<Map<number, Timeline
       title: n.data.title,
       date: n.data.published,
       href: getNotePath(getNoteSlug(n), langKey),
+      isFallback: n.localization.isFallback,
     })),
     ...journals.map((j: Journal): TimelineEntry => ({
       kind: 'journals',
@@ -898,6 +904,7 @@ async function _getTimelineByYear(lang?: Language): Promise<Map<number, Timeline
       title: j.data.title,
       date: j.data.published,
       href: getJournalPath(getJournalSlug(j), langKey),
+      isFallback: j.localization.isFallback,
     })),
   ]
 
@@ -922,20 +929,16 @@ async function _getTimelineByYear(lang?: Language): Promise<Map<number, Timeline
 export const getTimelineByYear = memoize(_getTimelineByYear)
 
 async function _getUserCategorySupportedLangs(name: string): Promise<Language[]> {
-  const posts = await getCollection(
-    'posts',
-    ({ data }: CollectionEntry<'posts'>) => !data.draft,
-  )
-  const { allLocales } = await import('@/config')
-
-  return allLocales.filter(locale =>
-    posts.some((post) => {
-      const cats = post.data.categories || []
-      const list = Array.isArray(cats) ? cats : [cats]
-      return list.includes(name)
-        && (post.data.lang === locale || post.data.lang === '')
+  const checks = await Promise.all(allLocales.map(async locale => ({
+    locale,
+    matches: (await getPosts(locale)).some((post) => {
+      const categories = Array.isArray(post.data.categories)
+        ? post.data.categories
+        : [post.data.categories]
+      return categories.includes(name)
     }),
-  )
+  })))
+  return checks.filter(check => check.matches).map(check => check.locale)
 }
 
 export const getUserCategorySupportedLangs = memoize(_getUserCategorySupportedLangs)

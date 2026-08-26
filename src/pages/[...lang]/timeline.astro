@@ -61,7 +61,7 @@ const dateFmt = new Intl.DateTimeFormat(currentLang, {
             </h2>
             <ul class="list-none p-0 m-0 no-heti">
               {byYear.get(year)!.map(entry => (
-                <li>
+                <li data-pagefind-ignore={entry.isFallback ? 'all' : undefined}>
                   <a
                     href={entry.href}
                     class:list={[

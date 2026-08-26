@@ -19,7 +19,11 @@ const { journals, lang } = Astro.props
     const slug = getJournalSlug(journal)
 
     return (
-      <li class="mb-5.5 lg:mb-7.5">
+      <li
+        class="mb-5.5 lg:mb-7.5"
+        data-pagefind-ignore={journal.localization.isFallback ? 'all' : undefined}
+        data-content-fallback={journal.localization.isFallback ? journal.localization.sourceLang : undefined}
+      >
         {/* journal title */}
         <h3 class="inline transition-colors hover:c-primary">
           <a

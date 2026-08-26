@@ -7,7 +7,8 @@ import PostDate from '@/components/PostDate.astro'
 import TagList from '@/components/TagList.astro'
 import BackButton from '@/components/Widgets/BackButton.astro'
 import TOC from '@/components/Widgets/TOC.astro'
-import { allLocales } from '@/config'
+import { allLocales, defaultLocale } from '@/config'
+import { resolveLocalizedEntry } from '@/i18n/fallback'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
 import Layout from '@/layouts/Layout.astro'
 import { getPostGroups, getPostSlug } from '@/utils/content'
@@ -15,35 +16,27 @@ import { getPostDescription } from '@/utils/description'
 
 export async function getStaticPaths() {
   const groups = await getPostGroups()
-
-  return allLocales.flatMap(lang => groups
-    .map((group) => {
-      const post = group.byLang[lang]
-      if (!post) {
-        return null
-      }
-
-      return {
-        params: {
-          lang: getLangRouteParam(lang),
-          slug: group.slug,
-        },
-        props: {
-          post,
-          supportedLangs: group.supportedLangs,
-        },
-      }
-    })
-    .filter(Boolean),
-  )
+  return allLocales.flatMap(lang => groups.map((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, lang, defaultLocale)
+    if (!resolution.entry) return null
+    return {
+      params: { lang: getLangRouteParam(lang), slug: group.slug },
+      props: {
+        post: resolution.entry,
+        supportedLangs: allLocales,
+        isFallback: resolution.isFallback,
+      },
+    }
+  }).filter(Boolean))
 }
 
 interface Props {
   post: CollectionEntry<'posts'>
   supportedLangs: Language[]
+  isFallback: boolean
 }
 
-const { post, supportedLangs } = Astro.props as Props
+const { post, supportedLangs, isFallback } = Astro.props as Props
 const currentLang = getLangFromLocale(Astro.currentLocale)
 const slug = getPostSlug(post)
 const description = getPostDescription(post, 'meta')
@@ -55,6 +48,8 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
   postDescription={description}
   postSlug={post.id}
   supportedLangs={supportedLangs}
+  pagefindIgnore={isFallback}
+  noindex={isFallback}
   article={{
     type: 'BlogPosting',
     published: post.data.published,
@@ -62,7 +57,11 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
     tags: post.data.tags,
   }}
 >
-  <article class="heti">
+  <article
+    class="heti"
+    data-content-fallback={isFallback ? defaultLocale : undefined}
+    data-pagefind-ignore={isFallback ? 'all' : undefined}
+  >
     <div class="relative">
       <BackButton />
       <h1 class="post-title">

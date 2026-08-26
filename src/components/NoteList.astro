@@ -19,7 +19,11 @@ const { notes, lang } = Astro.props
     const slug = getNoteSlug(note)
 
     return (
-      <li class="mb-5.5 lg:mb-7.5">
+      <li
+        class="mb-5.5 lg:mb-7.5"
+        data-pagefind-ignore={note.localization.isFallback ? 'all' : undefined}
+        data-content-fallback={note.localization.isFallback ? note.localization.sourceLang : undefined}
+      >
         {/* note title */}
         <h3 class="inline transition-colors hover:c-primary">
           <a

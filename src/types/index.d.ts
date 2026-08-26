@@ -1,23 +1,25 @@
 import type { CollectionEntry } from 'astro:content'
 import type { Language } from '@/i18n/config'
 
-export type Post = CollectionEntry<'posts'> & {
+interface ReadingTimeMeta {
   remarkPluginFrontmatter: {
     minutes: number
   }
 }
 
-export type Note = CollectionEntry<'notes'> & {
-  remarkPluginFrontmatter: {
-    minutes: number
-  }
+export interface LocalizationMeta {
+  requestedLang: Language
+  sourceLang: Language
+  isFallback: boolean
 }
 
-export type Journal = CollectionEntry<'journals'> & {
-  remarkPluginFrontmatter: {
-    minutes: number
-  }
-}
+export type RenderedPost = CollectionEntry<'posts'> & ReadingTimeMeta
+export type RenderedNote = CollectionEntry<'notes'> & ReadingTimeMeta
+export type RenderedJournal = CollectionEntry<'journals'> & ReadingTimeMeta
+
+export type Post = RenderedPost & { localization: LocalizationMeta }
+export type Note = RenderedNote & { localization: LocalizationMeta }
+export type Journal = RenderedJournal & { localization: LocalizationMeta }
 
 // The runtime shape is now derived from the Zod schema in config-schema.ts.
 // The interface below is kept for editor tooling / docs and is structurally

@@ -24,6 +24,8 @@ const isHome = isHomePage(Astro.url.pathname)
 
     return (
       <li
+        data-pagefind-ignore={post.localization.isFallback ? 'all' : undefined}
+        data-content-fallback={post.localization.isFallback ? post.localization.sourceLang : undefined}
         class:list={[
           'mb-5.5',
           isHome ? 'lg:mb-10' : '',

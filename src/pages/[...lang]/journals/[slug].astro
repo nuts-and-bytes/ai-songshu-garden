@@ -5,7 +5,8 @@ import { render } from 'astro:content'
 import PostDate from '@/components/PostDate.astro'
 import BackButton from '@/components/Widgets/BackButton.astro'
 import TOC from '@/components/Widgets/TOC.astro'
-import { allLocales } from '@/config'
+import { allLocales, defaultLocale } from '@/config'
+import { resolveLocalizedEntry } from '@/i18n/fallback'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
 import Layout from '@/layouts/Layout.astro'
 import { getJournalGroups, getJournalSlug } from '@/utils/content'
@@ -13,35 +14,27 @@ import { getJournalDescription } from '@/utils/description'
 
 export async function getStaticPaths() {
   const groups = await getJournalGroups()
-
-  return allLocales.flatMap(lang => groups
-    .map((group) => {
-      const journal = group.byLang[lang]
-      if (!journal) {
-        return null
-      }
-
-      return {
-        params: {
-          lang: getLangRouteParam(lang),
-          slug: group.slug,
-        },
-        props: {
-          journal,
-          supportedLangs: group.supportedLangs,
-        },
-      }
-    })
-    .filter(Boolean),
-  )
+  return allLocales.flatMap(lang => groups.map((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, lang, defaultLocale)
+    if (!resolution.entry) return null
+    return {
+      params: { lang: getLangRouteParam(lang), slug: group.slug },
+      props: {
+        journal: resolution.entry,
+        supportedLangs: allLocales,
+        isFallback: resolution.isFallback,
+      },
+    }
+  }).filter(Boolean))
 }
 
 interface Props {
   journal: CollectionEntry<'journals'>
   supportedLangs: Language[]
+  isFallback: boolean
 }
 
-const { journal, supportedLangs } = Astro.props as Props
+const { journal, supportedLangs, isFallback } = Astro.props as Props
 const currentLang = getLangFromLocale(Astro.currentLocale)
 const slug = getJournalSlug(journal)
 const description = getJournalDescription(journal, 'meta')
@@ -53,6 +46,8 @@ const { Content, headings, remarkPluginFrontmatter } = await render(journal)
   postDescription={description}
   postSlug={`journals/${journal.id}`}
   supportedLangs={supportedLangs}
+  pagefindIgnore={isFallback}
+  noindex={isFallback}
   article={{
     type: 'Article',
     published: journal.data.published,
@@ -60,7 +55,11 @@ const { Content, headings, remarkPluginFrontmatter } = await render(journal)
     tags: journal.data.tags,
   }}
 >
-  <article class="heti">
+  <article
+    class="heti"
+    data-content-fallback={isFallback ? defaultLocale : undefined}
+    data-pagefind-ignore={isFallback ? 'all' : undefined}
+  >
     <div class="relative">
       <BackButton />
       <h1 class="post-title">

@@ -5,7 +5,8 @@ import { render } from 'astro:content'
 import PostDate from '@/components/PostDate.astro'
 import BackButton from '@/components/Widgets/BackButton.astro'
 import TOC from '@/components/Widgets/TOC.astro'
-import { allLocales } from '@/config'
+import { allLocales, defaultLocale } from '@/config'
+import { resolveLocalizedEntry } from '@/i18n/fallback'
 import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
 import Layout from '@/layouts/Layout.astro'
 import { getNoteGroups, getNoteSlug } from '@/utils/content'
@@ -13,35 +14,27 @@ import { getNoteDescription } from '@/utils/description'
 
 export async function getStaticPaths() {
   const groups = await getNoteGroups()
-
-  return allLocales.flatMap(lang => groups
-    .map((group) => {
-      const note = group.byLang[lang]
-      if (!note) {
-        return null
-      }
-
-      return {
-        params: {
-          lang: getLangRouteParam(lang),
-          slug: group.slug,
-        },
-        props: {
-          note,
-          supportedLangs: group.supportedLangs,
-        },
-      }
-    })
-    .filter(Boolean),
-  )
+  return allLocales.flatMap(lang => groups.map((group) => {
+    const resolution = resolveLocalizedEntry(group.byLang, lang, defaultLocale)
+    if (!resolution.entry) return null
+    return {
+      params: { lang: getLangRouteParam(lang), slug: group.slug },
+      props: {
+        note: resolution.entry,
+        supportedLangs: allLocales,
+        isFallback: resolution.isFallback,
+      },
+    }
+  }).filter(Boolean))
 }
 
 interface Props {
   note: CollectionEntry<'notes'>
   supportedLangs: Language[]
+  isFallback: boolean
 }
 
-const { note, supportedLangs } = Astro.props as Props
+const { note, supportedLangs, isFallback } = Astro.props as Props
 const currentLang = getLangFromLocale(Astro.currentLocale)
 const slug = getNoteSlug(note)
 const description = getNoteDescription(note, 'meta')
@@ -53,6 +46,8 @@ const { Content, headings, remarkPluginFrontmatter } = await render(note)
   postDescription={description}
   postSlug={`notes/${note.id}`}
   supportedLangs={supportedLangs}
+  pagefindIgnore={isFallback}
+  noindex={isFallback}
   article={{
     type: 'Article',
     published: note.data.published,
@@ -60,7 +55,11 @@ const { Content, headings, remarkPluginFrontmatter } = await render(note)
     tags: note.data.tags,
   }}
 >
-  <article class="heti">
+  <article
+    class="heti"
+    data-content-fallback={isFallback ? defaultLocale : undefined}
+    data-pagefind-ignore={isFallback ? 'all' : undefined}
+  >
     <div class="relative">
       <BackButton />
       <h1 class="post-title">

@@ -18,6 +18,7 @@ interface Props {
   postDescription?: string
   postSlug?: string
   supportedLangs?: Language[]
+  forceNoindex?: boolean
   article?: {
     type: 'Article' | 'BlogPosting'
     published?: Date
@@ -32,6 +33,7 @@ const {
   postDescription,
   postSlug,
   supportedLangs = [],
+  forceNoindex = false,
   article,
 } = Astro.props
 const { currentLang } = getPageInfo(Astro.url.pathname)
@@ -77,7 +79,7 @@ const personId = new URL('#person', siteRoot).href
 const websiteId = new URL('#website', siteRoot).href
 const webpageId = new URL('#webpage', canonicalUrl).href
 const person = themeConfig.seo?.person ?? {}
-const noindex = shouldNoindex(Astro.url.pathname)
+const pageNoindex = forceNoindex || shouldNoindex(Astro.url.pathname)
 const personNode: Record<string, unknown> = {
   '@type': 'Person',
   '@id': personId,
@@ -153,7 +155,7 @@ const jsonLd = serializeJsonLd({
 {favicon.toLowerCase().endsWith('.ico') && <link rel="icon" type="image/x-icon" href={`${base}${favicon}`} />}
 <title>{pageTitle}</title>
 <meta name="description" content={pageDescription} />
-{noindex && <meta name="robots" content="noindex, follow" />}
+{pageNoindex && <meta name="robots" content="noindex, follow" />}
 <meta name="author" content={author} />
 <meta name="generator" content={Astro.generator} />
 <meta name="theme-color" content={metaTheme} />

@@ -1840,9 +1840,9 @@ test('fallback article copies are excluded from Pagefind', () => {
     'dist/en/posts/如何用-claude-code-搭一个会自动整理的知识库.html',
     'utf8',
   )
-  assert.match(html, /data-content-fallback="zh"/)
-  assert.match(html, /data-pagefind-ignore="all"/)
-  assert.match(html, /name="robots" content="noindex, follow"/)
+  assert.match(html, /data-content-fallback=["']?zh/)
+  assert.match(html, /data-pagefind-ignore=["']?all/)
+  assert.match(html, /<meta(?=[^>]*name=["']?robots)(?=[^>]*content="noindex, follow")[^>]*>/)
 })
 ```
 
