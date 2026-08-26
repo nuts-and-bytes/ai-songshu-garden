@@ -1,9 +1,17 @@
 ---
 title: 如何用 Claude Code 搭一个会自动整理的知识库
+published: 2026-06-03
+updated: 2026-06-07
+description: 一个零基础用户如何用 Claude Code、Obsidian 与转录工具搭出会自动整理、建 Wiki 和连双链的知识库。
 tags:
   - AI
   - 工作流
   - Obsidian
+categories:
+  - AI 工作流
+lang: zh
+toc: true
+draft: false
 ---
 
 > 这是我小红书那篇《我把 Claude Code 调教成了知识库管家》的详细版。小红书放成果，这里放从 0 到 1 的完整过程——一个零基础的人，照着做也能搭起来。

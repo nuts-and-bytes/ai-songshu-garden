@@ -500,7 +500,7 @@ test('contains exactly one canonical post with stable metadata', () => {
   assert.equal(post.data.toc, true)
   assert.deepEqual(post.data.tags, ['AI', '工作流', 'Obsidian'])
   assert.match(post.body, /## 零、先问：这套东西适合你吗？/)
-  assert.ok(post.body.length > 10000)
+  assert.ok(Buffer.byteLength(post.body, 'utf8') > 18000)
 })
 
 test('keeps notes and journals empty without inventing content', () => {
