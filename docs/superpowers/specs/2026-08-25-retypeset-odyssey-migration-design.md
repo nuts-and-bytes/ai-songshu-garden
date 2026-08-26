@@ -128,7 +128,7 @@ GitHub Actions 使用 Node 22 和 pnpm：
 - 站名使用 Snell-Black；
 - 日期使用 Snell-Bold；
 - 副标题与元信息使用 STIX-Italic；
-- 正文使用 STIX 与 EarlySummer/Noto Sans SC 回退；
+- `global.fontStyle` 使用目标站当前的 `sans`，正文与文章列表继承系统无衬线栈并由 Heti 处理中文排版；STIX/EarlySummer 继续服务元信息与主题既有回退；
 - 不增加第二强调色、卡片网格、渐变 Hero、玻璃拟态或装饰性图谱。
 
 品牌替换仅包括：
@@ -162,11 +162,11 @@ GitHub Actions 使用 Node 22 和 pnpm：
 
 首篇文章的新 canonical 地址使用：
 
-`/ai-songshu-garden/posts/如何用-Claude-Code-搭一个会自动整理的知识库/`
+`/ai-songshu-garden/posts/如何用-claude-code-搭一个会自动整理的知识库`
 
-所有现有路径，包括根目录文章、`博客/` 中文路径及 `.html` 版本，生成静态 HTML 重定向页。GitHub Pages 不支持 `_redirects` 规则，因此不能仅依赖该文件。
+所有现有路径继续可用：路径结构改变的页面生成静态 HTML 重定向页；旧标签 `.html` 地址与 Astro `build.format: "file"` 的正式标签产物同路径，直接显示新页面并输出 clean canonical。GitHub Pages 不支持 `_redirects` 规则，因此路径结构改变的页面不能仅依赖该文件。
 
-重定向页包含：
+静态重定向页包含：
 
 - `meta refresh`；
 - canonical link；
