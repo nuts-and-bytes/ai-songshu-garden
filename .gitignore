@@ -46,3 +46,10 @@ public/llms-full.txt
 # scaffolding. Accessible at http://localhost:PORT/_dev-<name>.html
 # while the dev server runs; reuse the prefix for future mockups.
 public/_dev-*.html
+
+# Generated GitHub Pages legacy redirects
+/public/如何用-Claude-Code-搭一个会自动整理的知识库.html
+/public/关于我.html
+/public/博客/
+/public/资源推荐/
+/public/tags/index.html

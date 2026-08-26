@@ -1245,6 +1245,7 @@ Create `scripts/seo/generate-static-redirects.ts`:
 import type { LegacyRoute } from './legacy-routes'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, normalize, sep } from 'node:path'
+import process from 'node:process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { legacyRoutes } from './legacy-routes'
 
