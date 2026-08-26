@@ -6,7 +6,7 @@ const article = `${base}/posts/${slug}`
 
 const navLabels = ['文章', '笔记', '日记', '分类', '标签', '时间线', '关于']
 
-test('renders approved brand and complete navigation', async ({ page }) => {
+test('renders approved brand and complete navigation', async ({ page, request }) => {
   await page.goto(`${base}/`)
   await expect(page).toHaveTitle(/nuts & bytes - 静水流深/)
   await expect(page.locator('#site-title-link')).toHaveText('nuts & bytes')
@@ -19,6 +19,11 @@ test('renders approved brand and complete navigation', async ({ page }) => {
     'href',
     '/ai-songshu-garden/atom.xml',
   )
+
+  for (const href of await nav.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')!))) {
+    const response = await request.get(href)
+    expect(response.status(), href).toBe(200)
+  }
 })
 
 test('renders the canonical article and article interactions', async ({ page }) => {
@@ -190,6 +195,7 @@ test('serves fonts, feeds, search data and SEO artifacts under the base path', a
 
 test('redirects every representative legacy route to its canonical page', async ({ page }) => {
   const cases = [
+    [`${base}/如何用-Claude-Code-搭一个会自动整理的知识库.html`, article],
     [`${base}/关于我.html`, `${base}/about`],
     [`${base}/博客/index.html`, `${base}/`],
     [`${base}/资源推荐/index.html`, `${base}/notes`],

@@ -16,8 +16,15 @@ const requiredFiles = [
   'dist/llms.txt',
   'dist/llms-full.txt',
   'dist/og/site.png',
+  'dist/如何用-Claude-Code-搭一个会自动整理的知识库.html',
   'dist/关于我.html',
   'dist/博客/index.html',
+  'dist/博客/如何用-Claude-Code-搭一个会自动整理的知识库.html',
+  'dist/资源推荐/index.html',
+  'dist/tags/index.html',
+  'dist/tags/AI.html',
+  'dist/tags/工作流.html',
+  'dist/tags/Obsidian.html',
 ]
 
 test('production build contains every required surface', () => {
