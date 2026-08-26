@@ -1,0 +1,106 @@
+---
+import type { Language } from '@/i18n/config'
+import Button from '@/components/Button.astro'
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import Navbar from '@/components/Navbar.astro'
+import SearchModal from '@/components/SearchModal.astro'
+import CodeCopyButton from '@/components/Widgets/CodeCopyButton.astro'
+import GithubCard from '@/components/Widgets/GithubCard.astro'
+import ImageZoom from '@/components/Widgets/ImageZoom.astro'
+import MediaEmbed from '@/components/Widgets/MediaEmbed.astro'
+import SoundEffect from '@/components/Widgets/SoundEffect.astro'
+import { themeConfig } from '@/config'
+import Head from '@/layouts/Head.astro'
+import { getPageInfo } from '@/utils/page'
+import '@/styles/comment.css'
+import '@/styles/extension.css'
+import '@/styles/font.css'
+import '@/styles/global.css'
+import '@/styles/lqip.css'
+import '@/styles/markdown.css'
+import '@/styles/transition.css'
+
+interface Props {
+  postTitle?: string
+  postDescription?: string
+  postSlug?: string
+  supportedLangs?: Language[]
+  article?: {
+    type: 'Article' | 'BlogPosting'
+    published?: Date
+    updated?: Date
+    tags?: string[]
+  }
+}
+
+const {
+  postTitle,
+  postDescription,
+  postSlug,
+  supportedLangs = [],
+  article,
+} = Astro.props
+const { isPost, isNote, isJournal } = getPageInfo(Astro.url.pathname)
+const isArticle = isPost || isNote || isJournal
+const fontStyle = themeConfig.global.fontStyle === 'serif' ? 'font-serif' : 'font-sans'
+const MarginBottom = isPost && themeConfig.comment.enabled
+  ? 'mb-10' // Post page with comment
+  : 'mb-12' // Other pages without comment
+---
+
+<html
+  lang={Astro.currentLocale}
+  class:list={[
+    fontStyle,
+    isArticle ? 'scroll-smooth' : '',
+  ]}
+>
+  <Head {postTitle} {postDescription} {postSlug} {supportedLangs} {article} />
+  {/*
+    Body acts as the mobile content column (centered max-width with padding).
+    On mobile body is a flex column; the rail aside's children flatten into
+    body via `display: contents` and pick up `order:N` to match legacy mobile
+    layout: Header → Navbar → main → Footer (Button is `position: absolute`
+    so order is moot).
+
+    On desktop body reverts to normal block layout; the centered content
+    column gets its own width via the inner wrapper, and the rail becomes a
+    fixed-positioned flex column to the right of it.
+  */}
+  <body
+    class:list={[
+      'mx-auto max-w-205.848 w-full min-h-vh min-h-dvh overflow-x-hidden',
+      'p-x-[min(7.25vw,3.731rem)] p-y-10',
+      'flex flex-col',
+      'lg:(block max-w-none mx-0 p-0 overflow-x-visible)',
+    ]}
+  >
+    <aside
+      class="max-lg:contents lg:uno-desktop-rail"
+      aria-label="Site chrome"
+    >
+      <Header />
+      <Navbar />
+      <Button supportedLangs={supportedLangs} />
+      <Footer />
+    </aside>
+    <div
+      class:list={[
+        'order-3 lg:order-none min-w-0',
+        // Desktop: centered narrow column to the left of the fixed rail
+        'lg:(mx-[max(5.75rem,calc(50vw-34.25rem))] my-20 max-w-[min(calc(75vw-16rem),44rem)])',
+      ]}
+    >
+      <main class={`${MarginBottom} min-w-0`}>
+        <slot />
+      </main>
+    </div>
+    <SoundEffect />
+    <CodeCopyButton />
+    <GithubCard />
+    <MediaEmbed />
+    <ImageZoom />
+    <SearchModal />
+  </body>
+</html>

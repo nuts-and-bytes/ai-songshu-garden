@@ -1,0 +1,76 @@
+---
+import { themeConfig } from '@/config'
+import { ui } from '@/i18n/ui'
+import { getPageInfo } from '@/utils/page'
+
+const { currentLang, getLocalizedPath, isPost, isNote, isJournal } = getPageInfo(Astro.url.pathname)
+const isArticle = isPost || isNote || isJournal
+const { title, subtitle, i18nTitle } = themeConfig.site
+
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
+const headerTitle = i18nTitle ? currentUI.title : title
+// subtitle may be a plain string (legacy) or a per-language map. When it is
+// a map, the current locale's value takes priority over ui.ts; otherwise fall
+// back to the existing i18nTitle behaviour.
+const headerSubtitle = typeof subtitle === 'object' && subtitle !== null
+  ? ((subtitle as Record<string, string>)[currentLang] || currentUI.subtitle)
+  : (i18nTitle ? currentUI.subtitle : subtitle)
+
+const TitleTag = isArticle ? 'h2' : 'h1'
+const SubtitleTag = isArticle ? 'div' : 'h2'
+---
+
+<header
+  class:list={[
+    // Mobile: order-1 places this at the top of the body flex column
+    // (body uses display:flex on mobile and the parent aside uses
+    // display:contents, so Header is effectively a direct body child).
+    // Desktop: flow child of <aside.uno-desktop-rail> — no `fixed` here,
+    // the rail handles position.
+    'order-1 lg:order-none cjk:tracking-wide',
+    // Mobile: aggressive bottom margin so CJK character bottom strokes
+    // (notably "人" in the zh subtitle) don't visually touch the
+    // active-nav yellow highlight in Navbar. Desktop margin is the
+    // intra-rail spacing between Header and Navbar blocks.
+    isArticle
+    ? 'mb-16 lg:mb-10.8'
+    : 'mb-20 lg:mb-10.5',
+  ]}
+>
+  <TitleTag
+    class:list={[
+      'font-bold font-title',
+      isArticle
+        ? `mb-2.8 mt-3 text-5.375 c-secondary lg:(mb-1.8 mt-0 text-9 c-primary)`
+        : `mb-1.8 w-75% text-8 c-primary lg:(w-full text-9)`,
+    ]}
+  >
+    <!-- Fix text cropping issues during view transition on iOS by adding a div tag -->
+    <div
+      class="box-content inline-block pr-1"
+      transition:name={`site-title-${currentLang}`}
+      data-disable-theme-toggle-transition
+    >
+      <a
+        id="site-title-link"
+        href={getLocalizedPath('/')}
+      >
+          {headerTitle}
+      </a>
+    </div>
+  </TitleTag>
+
+  {headerSubtitle && (
+    <SubtitleTag
+      class:list={[
+        'text-3.5 c-secondary font-navbar lg:text-4',
+        isArticle
+        ? `op-0 lg:op-100`
+        : 'w-75% lg:w-full',
+      ]}
+      aria-hidden={isArticle}
+    >
+      {headerSubtitle}
+    </SubtitleTag>
+  )}
+</header>

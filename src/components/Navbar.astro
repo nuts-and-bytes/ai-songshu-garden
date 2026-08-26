@@ -1,0 +1,90 @@
+---
+import { ui } from '@/i18n/ui'
+import { getPageInfo } from '@/utils/page'
+
+const { currentLang, isHome, isPost, isNote, isJournal, isTag, isCategory, isTimeline, isAbout, getLocalizedPath } = getPageInfo(Astro.url.pathname)
+const currentUI = ui[currentLang as keyof typeof ui] ?? {}
+
+const isPostActive = isHome || isPost
+const isNoteActive = isNote
+const isJournalActive = isJournal
+const isTagActive = isTag
+const isCategoryActive = isCategory
+const isTimelineActive = isTimeline
+const isAboutActive = isAbout
+
+function getNavItemClass(isActive: boolean) {
+  // `after:bottom-0.35em` matches the footer-link highlight position —
+  // closer to text baseline, away from the top of the line-box. Original
+  // `bottom-0.7em` parked the highlight stripe high in the `leading-2.45em`
+  // line-box, where it could collide with the previous element (subtitle)
+  // on mobile vertical layouts.
+  return isActive
+    ? 'highlight-static c-primary font-bold after:bottom-0.35em'
+    : 'highlight-hover transition-[colors,font-weight] after:bottom-0.35em hover:(c-primary font-bold)'
+}
+
+const navItems = [
+  {
+    href: '/',
+    label: currentUI.posts,
+    className: getNavItemClass(isPostActive),
+  },
+  {
+    href: '/notes/',
+    label: currentUI.notes ?? 'Notes',
+    className: getNavItemClass(isNoteActive),
+  },
+  {
+    href: '/journals/',
+    label: currentUI.journals ?? 'Journal',
+    className: getNavItemClass(isJournalActive),
+  },
+  {
+    href: '/categories/',
+    label: currentUI.categories ?? 'Categories',
+    className: getNavItemClass(isCategoryActive),
+  },
+  {
+    href: '/tags/',
+    label: currentUI.tags,
+    className: getNavItemClass(isTagActive),
+  },
+  {
+    href: '/timeline/',
+    label: currentUI.timeline ?? 'Timeline',
+    className: getNavItemClass(isTimelineActive),
+  },
+  {
+    href: '/about/',
+    label: currentUI.about,
+    className: getNavItemClass(isAboutActive),
+  },
+]
+---
+
+<nav
+  aria-label="Site Navigation"
+  class:list={[
+    'mb-10.5 text-3.6 font-semibold leading-2.45em font-navbar',
+    // Mobile: order-2 places nav just under Header in the body flex column.
+    // Desktop: flow child of <aside.uno-desktop-rail> — no `fixed` here.
+    // The rail is the single source of column position; nav sits below
+    // Header in the flex flow and above the Button + Footer below.
+    'order-2 lg:order-none lg:text-4 cjk:tracking-wide',
+    (isPost || isNote || isJournal || isCategory || isTimeline) ? 'hidden lg:block' : '',
+  ]}
+>
+  <ul>
+    {navItems.map(item => (
+      <li>
+        <a
+          href={getLocalizedPath(item.href)}
+          class={item.className}
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

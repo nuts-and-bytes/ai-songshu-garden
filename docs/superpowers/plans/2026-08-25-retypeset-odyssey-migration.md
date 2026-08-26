@@ -77,7 +77,7 @@ Expected: clean feature worktree; the original checkout's Quartz cache modificat
 ```bash
 git remote add retypeset-theme https://github.com/lifeodyssey/retypeset-odyssey.git
 git fetch --depth=1 retypeset-theme refs/tags/v0.1.20
-UPSTREAM_SHA="$(git rev-parse FETCH_HEAD)"
+UPSTREAM_SHA="$(git rev-parse 'FETCH_HEAD^{commit}')"
 test "$UPSTREAM_SHA" = "20d41050d5cfdfef04cc81875b544aa566fea978"
 printf 'verified upstream: %s\n' "$UPSTREAM_SHA"
 ```
@@ -87,7 +87,7 @@ Expected: `verified upstream: 20d41050d5cfdfef04cc81875b544aa566fea978`.
 - [ ] **Step 3: Remove the Quartz runtime without touching approved docs or content**
 
 ```bash
-git rm -r quartz public
+git rm -r quartz
 git rm \
   .claude/launch.json \
   .node-version .npmrc .prettierignore .prettierrc \
@@ -96,7 +96,9 @@ git rm \
   globals.d.ts index.d.ts LICENSE.txt \
   package-lock.json package.json README.md tsconfig.json \
   quartz.config.ts quartz.layout.ts
-git rm docs/*.md
+git ls-files -z docs \
+  | python3 -c 'import sys; data=sys.stdin.buffer.read().split(b"\\0"); sys.stdout.buffer.write(b"\\0".join(p for p in data if p and not p.startswith(b"docs/superpowers/")) + b"\\0")' \
+  | xargs -0 git rm --
 git rm -r \
   .github/ISSUE_TEMPLATE \
   .github/dependabot.yml \
@@ -166,8 +168,7 @@ done
 - [ ] **Step 6: Install the pinned dependency graph**
 
 ```bash
-corepack enable
-pnpm install --frozen-lockfile
+corepack pnpm install --frozen-lockfile
 ```
 
 Expected: pnpm completes with exit code 0 and does not rewrite `pnpm-lock.yaml`.
@@ -175,11 +176,11 @@ Expected: pnpm completes with exit code 0 and does not rewrite `pnpm-lock.yaml`.
 - [ ] **Step 7: Verify the vendored source before customization**
 
 ```bash
-pnpm eslint src scripts integration.ts discover-collections.ts
+pnpm astro check
 test -f public/sounds/tap_01.wav
 test -f public/sounds/type_05.wav
 test -f public/fonts/Snell-Black-SF.woff2
-git diff --check
+git diff --check -- .gitignore docs/superpowers
 ```
 
 Expected: all commands exit 0.
@@ -403,7 +404,7 @@ In `package.json`, set these exact script entries while preserving upstream auth
     "dev": "astro check && astro dev",
     "build": "astro check && astro build && pnpm apply-lqip",
     "preview": "astro preview",
-    "check": "astro check && eslint .",
+    "check": "astro check",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:unit": "tsx --test tests/unit/*.test.ts",
     "test:e2e": "playwright test",

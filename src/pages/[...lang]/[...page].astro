@@ -1,0 +1,48 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro'
+import type { Post } from '@/types'
+import Pagination from '@/components/Pagination.astro'
+import PostList from '@/components/PostList.astro'
+import { POSTS_PER_PAGE, allLocales } from '@/config'
+import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import { getLocalizedPath } from '@/i18n/path'
+import Layout from '@/layouts/Layout.astro'
+import { getPosts } from '@/utils/content'
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+  const results = []
+
+  for (const lang of allLocales) {
+    const posts = await getPosts(lang)
+    const langParam = getLangRouteParam(lang)
+
+    const paginatedPages = paginate(posts, {
+      pageSize: POSTS_PER_PAGE,
+      params: { lang: langParam },
+      props: { lang },
+    })
+
+    results.push(...paginatedPages)
+  }
+
+  return results
+}
+
+const page = Astro.props.page as Page<Post>
+const currentLang = getLangFromLocale(Astro.currentLocale)
+
+// Base URL for pagination (root path for the language)
+const baseUrl = getLocalizedPath('/', currentLang)
+---
+
+<Layout>
+  <section class="mb-7.5">
+    <div class="uno-decorative-line" />
+    <PostList posts={page.data} lang={currentLang} />
+    <Pagination
+      currentPage={page.currentPage}
+      totalPages={page.lastPage}
+      baseUrl={baseUrl}
+    />
+  </section>
+</Layout>

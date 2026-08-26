@@ -1,0 +1,162 @@
+# Retypeset Odyssey — default theme configuration.
+#
+# This file is the authoritative source of defaults. A consumer can override
+# any subset of these keys in their own `retypeset.config.yaml` at the project
+# root; values are deep-merged on top of this file.
+
+# ---- SITE -------------------------------------------------------------------
+site:
+  # Site title.
+  title: Life Odyssey
+  # Site subtitle (tagline). Either a single string (used for all languages)
+  # or a per-language map, e.g.
+  #   subtitle:
+  #     zh: 你的中文副标题
+  #     en: Your English subtitle
+  #     ja: あなたの日本語サブタイトル
+  # When omitted (or empty) and `i18nTitle: true`, the per-language defaults
+  # in src/i18n/ui.ts are used.
+  subtitle: ''
+  # Site description (for SEO + RSS).
+  description: A personal blog about life, technology, and reflections.
+  # When true, title/subtitle/description fall back to src/i18n/ui.ts for the
+  # current locale whenever the values above are not set as per-language maps.
+  i18nTitle: true
+  # Author name.
+  author: Zhenjia
+  # Canonical site URL (no trailing slash).
+  url: https://zhenjia.dev
+  # Base path. Use '/' unless the site is served from a subpath.
+  base: /
+  # Favicon URL. Recommended formats: svg, png, ico.
+  favicon: /icons/favicon.svg
+
+# ---- COLOR ------------------------------------------------------------------
+color:
+  # Default theme mode: light | dark | auto.
+  mode: light
+  light:
+    primary: oklch(25% 0.005 298)
+    secondary: oklch(40% 0.005 298)
+    background: oklch(96% 0.005 298)
+    highlight: oklch(0.93 0.195089 103.2532 / 0.5)
+  dark:
+    primary: oklch(92% 0.005 298)
+    secondary: oklch(77% 0.005 298)
+    background: oklch(22% 0.005 298)
+    highlight: oklch(0.93 0.195089 103.2532 / 0.2)
+
+# ---- GLOBAL -----------------------------------------------------------------
+global:
+  # Default language: de | en | es | fr | ja | ko | pl | pt | ru | zh | zh-tw.
+  locale: zh
+  # Additional languages (do not include the default locale here).
+  moreLocales:
+    - en
+    - ja
+  # Post font style: sans | serif.
+  fontStyle: sans
+  # Date format: YYYY-MM-DD | MM-DD-YYYY | DD-MM-YYYY | MMM D YYYY | D MMM YYYY.
+  dateFormat: YYYY-MM-DD
+  # Enable table of contents.
+  toc: true
+  # Enable KaTeX math rendering.
+  katex: true
+  # Reduce motion.
+  reduceMotion: false
+
+# ---- COMMENT ----------------------------------------------------------------
+comment:
+  # Enable comment system.
+  enabled: false
+  giscus:
+    repo: ''
+    repoId: ''
+    category: ''
+    categoryId: ''
+    mapping: pathname
+    strict: '0'
+    reactionsEnabled: '1'
+    emitMetadata: '0'
+    inputPosition: bottom
+  twikoo:
+    envId: ''
+  waline:
+    serverURL: https://retypeset-comment.radishzz.cc
+    emoji:
+      - https://unpkg.com/@waline/emojis@1.2.0/tw-emoji
+    search: false
+    imageUploader: false
+
+# ---- SEO --------------------------------------------------------------------
+seo:
+  # @twitter ID.
+  twitterID: ''
+  verification:
+    google: ''
+    bing: ''
+    yandex: ''
+    baidu: ''
+  # Google Analytics 4 measurement ID (G-XXXXXXXXXX). Not the legacy UA-* form.
+  googleAnalyticsID: ''
+  # Umami analytics ID (https://cloud.umami.is).
+  umamiAnalyticsID: ''
+  # Follow.is verification.
+  follow:
+    feedID: ''
+    userID: ''
+  # ApiFlash access key (https://apiflash.com/) for generating OG screenshots.
+  apiflashKey: ''
+  # Author entity for JSON-LD Person (sameAs, jobTitle, email).
+  person:
+    jobTitle: ''
+    email: ''
+    sameAs: []
+  # /llms.txt featured post slugs (canonical URL slugs). Empty = all default-locale posts.
+  llms:
+    featured: []
+
+# ---- FOOTER -----------------------------------------------------------------
+footer:
+  links:
+    - name: RSS
+      url: /atom.xml
+    - name: GitHub
+      url: https://github.com/lifeodyssey
+  # Year the site was first published.
+  startYear: 2016
+
+# ---- COLLECTIONS ------------------------------------------------------------
+# Built-in collections (`posts`, `notes`, `journals`) are always enabled by
+# default. Any extra top-level folder under `content/` (e.g. `content/tech/`)
+# becomes its own collection automatically, with `/tech` as the list page and
+# `/tech/<slug>` as the detail page. You can disable any collection by setting
+# `enabled: false`. Folders prefixed with `_` or `.` are ignored, so use
+# `content/_drafts/` for in-progress material.
+collections:
+  posts:
+    enabled: true
+  notes:
+    enabled: true
+    # Optional per-language tagline shown under the Notes title on /notes.
+    # Omit to fall back to ui.ts (notesIntro).
+    # intro:
+    #   zh: 我的笔记本
+    #   en: My notes
+    #   ja: 私のノート
+  journals:
+    enabled: true
+    # Optional per-language tagline for /journals. See `notes.intro` above.
+    # intro:
+    #   zh: 一段旅程
+    #   en: A journey
+    #   ja: ある旅
+
+# ---- PRELOAD ----------------------------------------------------------------
+preload:
+  # Image hosting URL. Used to optimize remote images and generate LQIP.
+  imageHostURL: ''
+  # Custom GA proxy endpoint.
+  customGoogleAnalyticsJS: ''
+  # Custom Umami proxy endpoint.
+  customUmamiAnalyticsJS: ''

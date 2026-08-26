@@ -1,0 +1,106 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import type { Language } from '@/i18n/config'
+import { render } from 'astro:content'
+import Comment from '@/components/Comment/Index.astro'
+import PostDate from '@/components/PostDate.astro'
+import TagList from '@/components/TagList.astro'
+import BackButton from '@/components/Widgets/BackButton.astro'
+import TOC from '@/components/Widgets/TOC.astro'
+import { allLocales } from '@/config'
+import { getLangFromLocale, getLangRouteParam } from '@/i18n/lang'
+import Layout from '@/layouts/Layout.astro'
+import { getPostGroups, getPostSlug } from '@/utils/content'
+import { getPostDescription } from '@/utils/description'
+
+export async function getStaticPaths() {
+  const groups = await getPostGroups()
+
+  return allLocales.flatMap(lang => groups
+    .map((group) => {
+      const post = group.byLang[lang]
+      if (!post) {
+        return null
+      }
+
+      return {
+        params: {
+          lang: getLangRouteParam(lang),
+          slug: group.slug,
+        },
+        props: {
+          post,
+          supportedLangs: group.supportedLangs,
+        },
+      }
+    })
+    .filter(Boolean),
+  )
+}
+
+interface Props {
+  post: CollectionEntry<'posts'>
+  supportedLangs: Language[]
+}
+
+const { post, supportedLangs } = Astro.props as Props
+const currentLang = getLangFromLocale(Astro.currentLocale)
+const slug = getPostSlug(post)
+const description = getPostDescription(post, 'meta')
+const { Content, headings, remarkPluginFrontmatter } = await render(post)
+---
+
+<Layout
+  postTitle={post.data.title}
+  postDescription={description}
+  postSlug={post.id}
+  supportedLangs={supportedLangs}
+  article={{
+    type: 'BlogPosting',
+    published: post.data.published,
+    updated: post.data.updated,
+    tags: post.data.tags,
+  }}
+>
+  <article class="heti">
+    <div class="relative">
+      <BackButton />
+      <h1 class="post-title">
+        <span
+          transition:name={`post-${slug}${currentLang ? `-${currentLang}` : ''}`}
+          data-disable-theme-toggle-transition
+        >
+          {post.data.title}
+        </span>
+      </h1>
+    </div>
+
+    <div
+      id="post-date"
+      class="mb-17.2 block c-primary font-time"
+      transition:name={`time-${slug}${currentLang ? `-${currentLang}` : ''}`}
+      data-disable-theme-toggle-transition
+    >
+      <PostDate
+        date={post.data.published}
+        updatedDate={post.data.updated}
+        minutes={remarkPluginFrontmatter.minutes}
+      />
+    </div>
+
+    {post.data.toc && <TOC headings={headings} />}
+
+    <div id="post-content">
+      <Content />
+      <div id="post-copyright" />
+      {post.data.tags?.length > 0 && (
+        <div class="mt-12.6 uno-decorative-line" />
+        <TagList
+          tags={post.data.tags}
+          lang={currentLang}
+        />
+      )}
+      <Comment />
+    </div>
+  </article>
+</Layout>

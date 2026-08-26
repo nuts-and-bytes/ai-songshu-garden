@@ -1,0 +1,168 @@
+---
+import type { Language } from '@/i18n/config'
+import LangEnIcon from '@/assets/icons/lang-en.svg'
+import LangJaIcon from '@/assets/icons/lang-ja.svg'
+import LangZhIcon from '@/assets/icons/lang-zh.svg'
+import SearchIcon from '@/assets/icons/search-icon.svg'
+import ThemeToggleIcon from '@/assets/icons/theme-toggle.svg'
+import { allLocales, moreLocales, themeConfig } from '@/config'
+import { getNextGlobalLangPath, getNextSupportedLangPath } from '@/i18n/path'
+import { getPageInfo } from '@/utils/page'
+
+interface Props {
+  supportedLangs: Language[]
+}
+
+const {
+  light: { background: lightMode },
+  dark: { background: darkMode },
+} = themeConfig.color
+
+const { supportedLangs } = Astro.props
+const currentPath = Astro.url.pathname
+const { currentLang } = getPageInfo(currentPath)
+
+const effectiveLangs = supportedLangs.length > 0 ? supportedLangs : allLocales
+const showLanguageSwitcher = moreLocales.length > 0 && effectiveLangs.length > 1
+
+// Choose a language switch list according to supported languages (when available)
+const nextUrl = supportedLangs.length > 1
+  ? getNextSupportedLangPath(currentPath, supportedLangs)
+  : getNextGlobalLangPath(currentPath)
+
+// Determine which icon to show based on current language
+// Show the icon of the NEXT language user will switch to
+const langIconMap: Record<string, typeof LangEnIcon> = {
+  'zh': LangEnIcon,    // zh → en, show "A"
+  'en': LangJaIcon,    // en → ja, show "あ"
+  'ja': LangZhIcon,    // ja → zh, show "汉"
+}
+const CurrentLangIcon = langIconMap[currentLang] || LangEnIcon
+---
+
+<div
+  class:list={[
+    // Mobile: absolute-positioned top-right corner (unchanged from legacy).
+    // The tighter `right-7.25vw top-14.6` puts it in the page's chrome
+    // band where the site title sits; on tablets >=823px it shifts a bit
+    // to align with the wider centered content column.
+    'absolute right-7.25vw top-14.6 flex gap-6 min-[823px]:max-lg:right-[calc(50vw-22rem)]',
+    // Desktop: flow child of <aside.uno-desktop-rail>. `mt-auto` pushes it
+    // toward the bottom of the rail, sitting just above Footer (Footer has
+    // its own mt-auto, but DOM order places Footer below Button so the
+    // visual stack is Header → Navbar → ... → Button → Footer).
+    // `static` resets the mobile `absolute` on desktop. `mb-6` provides
+    // breathing room between the icon row and Footer.
+    'lg:(static mt-auto mb-6 right-auto top-auto)',
+  ]}
+>
+  <!--
+    Visual icon = 16x16 (`w-4 h-4`). Hit area = 44x44 via the `::before`
+    pseudo-element pattern (`relative` + `before:absolute before:-inset-3.5`)
+    so the click/tap target meets WCAG 2.5.8 without inflating the icon's
+    visual footprint or expanding the gap between icons in the rail.
+  -->
+  <!-- Search Button -->
+  <button
+    id="search-button"
+    class="relative aspect-square w-4 c-secondary active:scale-90 hover:c-primary before:(absolute -inset-3.5 content-empty)"
+    aria-label="Search"
+  >
+    <SearchIcon aria-hidden="true" fill="currentColor" />
+  </button>
+
+  <!-- Language Switcher -->
+  {showLanguageSwitcher && (
+    <a
+      id="language-switcher"
+      href={nextUrl}
+      class="relative aspect-square w-4 c-secondary active:scale-90 hover:c-primary before:(absolute -inset-3.5 content-empty)"
+      aria-label="Switch website language"
+    >
+      <CurrentLangIcon
+        aria-hidden="true"
+        fill="currentColor"
+      />
+    </a>
+  )}
+
+  <!-- Theme Toggle -->
+  <button
+    id="theme-toggle-button"
+    class="relative aspect-square w-4 c-secondary active:scale-90 hover:c-primary before:(absolute -inset-3.5 content-empty)"
+    data-light-mode={lightMode}
+    data-dark-mode={darkMode}
+    aria-label="Switch light/dark theme"
+  >
+    <ThemeToggleIcon
+      aria-hidden="true"
+      fill="currentColor"
+    />
+  </button>
+</div>
+
+<!-- Theme Toggle Script >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+<script>
+// Apply theme changes
+function applyTheme(isDark: boolean) {
+  document.documentElement.classList.toggle('dark', isDark)
+
+  // Update meta theme-color tag
+  const metaThemeColor = document.head.querySelector('meta[name="theme-color"]')
+  const themeButton = document.getElementById('theme-toggle-button')
+  const lightMode = themeButton?.dataset.lightMode
+  const darkMode = themeButton?.dataset.darkMode
+
+  if (metaThemeColor && lightMode && darkMode) {
+    metaThemeColor.setAttribute('content', isDark ? darkMode : lightMode)
+  }
+
+  localStorage.setItem('theme', isDark ? 'dark' : 'light')
+  document.dispatchEvent(new Event('theme-changed'))
+}
+
+// Toggle theme mode
+function toggleTheme() {
+  const isDark = !document.documentElement.classList.contains('dark')
+  applyTheme(isDark)
+}
+
+// Handle theme toggle click events
+function handleThemeToggle(e: MouseEvent) {
+  if (!(e.target instanceof Element)) {
+    return
+  }
+
+  if (!e.target.closest('#theme-toggle-button')) {
+    return
+  }
+
+  // If reduceMotion is enabled, update theme directly
+  if (document.documentElement.classList.contains('reduce-motion')) {
+    toggleTheme()
+    return
+  }
+
+  // Add temporary markers before view transition
+  document.documentElement.style.setProperty('view-transition-name', 'theme-toggle-transition')
+  document.documentElement.setAttribute('data-theme-changing', '')
+
+  // Use View Transitions API for theme toggle
+  const transition = document.startViewTransition(toggleTheme)
+
+  // Remove temporary markers after view transition
+  transition.finished.then(() => {
+    document.documentElement.style.removeProperty('view-transition-name')
+    document.documentElement.removeAttribute('data-theme-changing')
+  })
+}
+
+// Listen to system theme changes in real time
+function handleSystemChange(event: MediaQueryListEvent) {
+  const isDark = event.matches
+  applyTheme(isDark)
+}
+
+document.addEventListener('click', handleThemeToggle)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleSystemChange)
+</script>
