@@ -12,9 +12,9 @@ function readMarkdown(path: string) {
 
 const postPath = 'content/posts/如何用 Claude Code 搭一个会自动整理的知识库.md'
 
-test('contains exactly one canonical post with stable metadata', () => {
+test('keeps canonical posts with stable metadata', () => {
   const files = readdirSync('content/posts').filter(file => /\.mdx?$/.test(file))
-  assert.deepEqual(files, ['如何用 Claude Code 搭一个会自动整理的知识库.md'])
+  assert.deepEqual(files.sort(), ['和 AI 一起走过的半年.md', '如何用 Claude Code 搭一个会自动整理的知识库.md'].sort())
 
   const post = readMarkdown(postPath)
   assert.equal(post.data.title, '用 Obsidian 打造你的第二大脑')

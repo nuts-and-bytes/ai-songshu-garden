@@ -15,7 +15,7 @@ test('renders approved brand and complete navigation', async ({ page, request })
   const nav = page.locator('nav[aria-label="Site Navigation"]')
   await expect(nav.locator('a')).toHaveCount(7)
   expect(await nav.locator('a').allTextContents()).toEqual(navLabels)
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(1)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
   await expect(page.locator('footer a[name="RSS"]')).toHaveAttribute(
     'href',
     '/ai-songshu-garden/atom.xml',
@@ -61,7 +61,7 @@ test('falls English and Japanese article routes back to Chinese', async ({ page 
 test('copies code, zooms images, and returns through article history', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto(`${base}/`)
-  await page.locator('a[href*="/posts/"]').click()
+  await page.getByRole('link', { name: '用 Obsidian 打造你的第二大脑', exact: true }).click()
   await expect.poll(() => decodeURI(new URL(page.url()).pathname)).toBe(article)
 
   const firstCode = page.locator('pre code').first()
@@ -211,7 +211,7 @@ test('redirects every representative legacy route to its canonical page', async 
 test('keeps legacy tag html URLs as real canonical tag pages', async ({ page }) => {
   const response = await page.goto(`${base}/tags/AI.html`)
   expect(response?.status()).toBe(200)
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(1)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://nuts-and-bytes.github.io/ai-songshu-garden/tags/AI',
