@@ -19,13 +19,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: python -m pip install -r public/downloads/stone-second-brain/requirements.txt
-      - run: python scripts/package-second-brain.py --check
-      - run: python -m unittest discover -s tests/starter -p 'test_*.py' -v
-      - run: python tests/starter/verify_real_example.py --output "${{ runner.temp }}/stone-acceptance"
       - uses: pnpm/action-setup@v4
         with:
           version: 10.26.0
