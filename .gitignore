@@ -53,3 +53,6 @@ public/_dev-*.html
 /public/博客/
 /public/资源推荐/
 /public/tags/index.html
+
+# Python starter test cache
+__pycache__/
