@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import test from 'node:test'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import test from 'vitest'
 import yaml from 'yaml'
 
 function readMarkdown(path: string) {
@@ -14,7 +14,7 @@ const postPath = 'content/posts/如何用 Claude Code 搭一个会自动整理�
 
 test('keeps canonical posts with stable metadata', () => {
   const files = readdirSync('content/posts').filter(file => /\.mdx?$/.test(file))
-  assert.deepEqual(files.sort(), ['和 AI 一起走过的半年.md', '如何用 Claude Code 搭一个会自动整理的知识库.md'].sort())
+  assert.deepEqual(files.sort(), ['和 AI 一起走过的半年.md', '如何用 Claude Code 搭一个会自动整理的知识库.md', '《活着》读后感.md', '《窄门》读后感.md', '《悉达多》读后感.md', '《沧浪之水》读后感.md', '《一句顶一万句》读后感.md', '《安娜卡列尼娜》读后感.md', '《早晨从中午开始》读后感.md'].sort())
 
   const post = readMarkdown(postPath)
   assert.equal(post.data.title, '用 Obsidian 打造你的第二大脑')

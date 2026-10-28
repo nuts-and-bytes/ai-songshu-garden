@@ -15,7 +15,7 @@ test('renders approved brand and complete navigation', async ({ page, request })
   const nav = page.locator('nav[aria-label="Site Navigation"]')
   await expect(nav.locator('a')).toHaveCount(7)
   expect(await nav.locator('a').allTextContents()).toEqual(navLabels)
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(7)
   await expect(page.locator('footer a[name="RSS"]')).toHaveAttribute(
     'href',
     '/ai-songshu-garden/atom.xml',
@@ -61,6 +61,8 @@ test('falls English and Japanese article routes back to Chinese', async ({ page 
 test('copies code, zooms images, and returns through article history', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto(`${base}/`)
+  await page.getByRole('link', { name: 'Next page', exact: true }).click()
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
   await page.getByRole('link', { name: '用 Obsidian 打造你的第二大脑', exact: true }).click()
   await expect.poll(() => decodeURI(new URL(page.url()).pathname)).toBe(article)
 
@@ -87,7 +89,7 @@ test('copies code, zooms images, and returns through article history', async ({ 
   await expect(page.locator('.zoom-img')).toHaveCount(0)
 
   await page.locator('#back-button').click()
-  await expect(page).toHaveURL(new RegExp(`${base}/$`))
+  await expect(page).toHaveURL(new RegExp(`${base}/2$`))
 })
 
 test('keeps notes and journals as intentional empty states', async ({ page }) => {
@@ -148,7 +150,8 @@ test('persists dark theme and exposes 44px control hit areas', async ({ page }) 
 test('plays theme tap sound on desktop and stays silent on mobile', async ({ page }) => {
   const desktopRequests: string[] = []
   page.on('request', (request) => {
-    if (request.url().includes('/sounds/')) desktopRequests.push(request.url())
+    if (request.url().includes('/sounds/'))
+      desktopRequests.push(request.url())
   })
   await page.goto(`${base}/`)
   await page.waitForTimeout(800)
@@ -159,7 +162,8 @@ test('plays theme tap sound on desktop and stays silent on mobile', async ({ pag
   await mobilePage.setViewportSize({ width: 390, height: 844 })
   const mobileRequests: string[] = []
   mobilePage.on('request', (request) => {
-    if (request.url().includes('/sounds/')) mobileRequests.push(request.url())
+    if (request.url().includes('/sounds/'))
+      mobileRequests.push(request.url())
   })
   await mobilePage.goto(`${base}/`)
   await mobilePage.waitForTimeout(800)
