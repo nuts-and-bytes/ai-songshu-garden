@@ -56,23 +56,38 @@ export function rehypeCodeCopyButton() {
       }
 
       node._hasCopyButton = true
+      const textOf = n => n.type === 'text' ? n.value : (n.children || []).map(textOf).join('')
+      const text = textOf(node)
+      const prompt = text.startsWith('请用这个目录里的 stone 第二大脑 v2')
+      const command = /(?:python|brain\.py|pip install)/.test(text) && !prompt
+      const label = prompt ? '给 AI 的完整提示词' : command ? '终端命令' : '流程示意'
+      const copyLabel = prompt ? '复制提示词' : command ? '复制命令' : '复制内容'
+      const textNode = value => ({ type: 'text', value })
+      const toolbar = {
+        type: 'element', tagName: 'div', properties: { className: ['code-toolbar'] },
+        children: [{ type: 'element', tagName: 'span', properties: {}, children: [textNode(label)] }],
+      }
 
       parent.children[index] = {
         type: 'element',
         tagName: 'div',
-        properties: { className: ['code-block-wrapper'] },
+        properties: { className: ['code-block-wrapper', prompt ? 'prompt-block' : command ? 'command-block' : 'diagram-block'] },
         children: [
+          toolbar,
           {
             type: 'element',
             tagName: 'button',
             properties: {
               'className': ['code-copy-button'],
               'type': 'button',
-              'aria-label': 'Copy code',
+              'aria-label': copyLabel,
             },
-            children: [copyIcon, checkIcon],
+            children: [copyIcon, checkIcon, { type: 'element', tagName: 'span', properties: { className: ['copy-label'], 'aria-live': 'polite' }, children: [textNode(copyLabel)] }],
           },
-          node,
+          ...(prompt ? [{
+            type: 'element', tagName: 'details', properties: { className: ['prompt-details'] },
+            children: [{ type: 'element', tagName: 'summary', properties: {}, children: [textNode('查看完整提示词 · 复制时包含全部内容')] }, node],
+          }] : [node]),
         ],
       }
 

@@ -220,3 +220,7 @@ that lags the code is worse than no README.
 ## Stone identity — approved 2026-10-28
 
 The public brand is `stone` (lowercase). The approved stone silhouette has a single page-like negative-space opening; use the same geometry across the header, favicon, home-screen icon and share cards. Use a Georgia serif wordmark, warm paper #FAF7F2, ink #1C1917 and restrained terracotta #C2410C. This approval replaces the former yellow-only accent and old site name, while preserving the reading layout, language support and article URLs. GitHub account/repository names remain unchanged.
+
+## Article reading — 2026-10-28
+
+Article typography follows the live 游荡集 site: Songti SC, STSong, Noto Serif CJK SC, serif for prose and headings; system sans for UI/tables, monospace for commands. Keep the stone wordmark and warm paper palette. Prose is 18px desktop / 17px mobile with 1.9 line height. Tables wrap at mobile widths. Prompt blocks use readable sans text, native disclosure and full-content copy; command blocks retain exact text and wrap visually.

@@ -241,3 +241,27 @@ test('matches approved desktop and mobile baselines', async ({ page }) => {
   await page.goto(`${base}/`)
   await expect(page).toHaveScreenshot('home-mobile.png', { fullPage: true })
 })
+
+test('keeps the full prompt copyable and article readable on narrow screens', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.goto(article)
+  const prompt = page.locator('.prompt-block')
+  const expected = await prompt.locator('code').textContent()
+  await expect(prompt.locator('details')).not.toHaveAttribute('open')
+  await prompt.getByRole('button', { name: '复制提示词' }).click()
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(expected)
+  await prompt.locator('summary').click()
+  await expect(prompt.locator('pre')).toBeVisible()
+  await expect(page.locator('.stone-article')).toHaveCSS('font-family', /Songti SC/)
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 })
+    await prompt.locator('.code-toolbar').scrollIntoViewIfNeeded()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await expect(prompt.locator('pre')).toHaveCSS('white-space', 'pre-wrap')
+    await page.screenshot({ path: `test-results/article-prompt-${width}.png`, animations: 'disabled' })
+    await page.locator('#post-content table').first().scrollIntoViewIfNeeded()
+    const bounds = await page.locator('#post-content table').first().boundingBox()
+    expect(bounds!.width).toBeLessThanOrEqual(width)
+    await page.screenshot({ path: `test-results/article-table-${width}.png`, animations: 'disabled' })
+  }
+})
