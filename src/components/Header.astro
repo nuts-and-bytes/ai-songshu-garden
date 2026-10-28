@@ -55,7 +55,8 @@ const SubtitleTag = isArticle ? 'div' : 'h2'
         id="site-title-link"
         href={getLocalizedPath('/')}
       >
-          {headerTitle}
+          <svg class="stone-mark" viewBox="0 0 108 108" width="36" height="36" fill="currentColor" aria-hidden="true"><path d="M17 76C9 68 12 54 21 40C31 24 44 12 58 12C72 12 85 23 89 35C91 41 89 44 83 47L23 74Z" /><path d="M23 76L87 53C91 51 93 54 94 60C100 85 83 94 56 94C35 94 23 88 17 80Z" /></svg>
+          <span>{headerTitle}</span>
       </a>
     </div>
   </TitleTag>
@@ -74,3 +75,8 @@ const SubtitleTag = isArticle ? 'div' : 'h2'
     </SubtitleTag>
   )}
 </header>
+
+<style>
+  #site-title-link { display: inline-flex; align-items: center; gap: .25em; font-family: Georgia, "Times New Roman", serif; font-weight: 400; letter-spacing: -.035em; }
+  .stone-mark { width: 1.05em; height: 1.05em; flex-shrink: 0; }
+</style>

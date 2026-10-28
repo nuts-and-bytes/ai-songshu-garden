@@ -1,6 +1,6 @@
-# nuts & bytes
+# stone
 
-`nuts & bytes` 是一个记录 AI 工具、工作流与个人实践的博客，使用 Astro 和源码内置的 Retypeset Odyssey 主题构建。
+`stone` 是一个记录 AI 工具、工作流与个人实践的博客，使用 Astro 和源码内置的 Retypeset Odyssey 主题构建。
 
 ## 本地开发
 

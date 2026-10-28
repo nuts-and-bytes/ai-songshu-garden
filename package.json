@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "description": "The nuts & bytes personal blog, built with Astro and Retypeset Odyssey.",
+  "description": "The stone personal blog, built with Astro and Retypeset Odyssey.",
   "keywords": [
     "astro",
     "astro-theme",

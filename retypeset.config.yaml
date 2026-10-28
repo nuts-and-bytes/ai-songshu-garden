@@ -1,15 +1,25 @@
 site:
-  title: nuts & bytes
+  title: stone
   subtitle: 静水流深
   description: 一个零基础编程用户用 AI 折腾工具、工作流与生活的个人博客。
   i18nTitle: false
-  author: nuts & bytes
+  author: stone
   url: https://nuts-and-bytes.github.io
   base: /ai-songshu-garden
   favicon: /icons/favicon.svg
 
 color:
   mode: light
+  light:
+    primary: oklch(21.6% 0.006 56)
+    secondary: oklch(44.4% 0.011 74)
+    background: oklch(97.7% 0.007 80)
+    highlight: oklch(55.3% 0.195 38.4 / 0.16)
+  dark:
+    primary: oklch(94% 0.007 80)
+    secondary: oklch(77% 0.011 74)
+    background: oklch(21.6% 0.006 56)
+    highlight: oklch(70% 0.16 38.4 / 0.25)
 
 global:
   locale: zh
@@ -30,7 +40,7 @@ seo:
     email: zxy200204@126.com
     sameAs:
       - https://github.com/nuts-and-bytes
-      - https://nuts-and-bytes.github.io/portfolio/
+      - https://heystone.site/
       - https://t.me/ericlibro
       - https://www.xiaohongshu.com/user/profile/zhuxinyao99
   llms:
@@ -44,7 +54,7 @@ footer:
     - name: GitHub
       url: https://github.com/nuts-and-bytes
     - name: Portfolio
-      url: https://nuts-and-bytes.github.io/portfolio/
+      url: https://heystone.site/
     - name: 小红书
       url: https://www.xiaohongshu.com/user/profile/zhuxinyao99
   startYear: 2026

@@ -37,7 +37,7 @@ test('keeps notes and journals empty without inventing content', () => {
 test('about page contains every approved public contact', () => {
   const about = readMarkdown('content/about/about-zh.md')
   assert.equal(about.data.lang, 'zh')
-  assert.match(about.body, /https:\/\/nuts-and-bytes\.github\.io\/portfolio\//)
+  assert.match(about.body, /https:\/\/heystone\.site\//)
   assert.match(about.body, /https:\/\/github\.com\/nuts-and-bytes/)
   assert.match(about.body, /mailto:zxy200204@126\.com/)
   assert.match(about.body, /mailto:zhuxinyao99@gmail\.com/)

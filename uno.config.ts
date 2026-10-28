@@ -1,4 +1,5 @@
 import type { Preset } from 'unocss'
+import { readFileSync } from 'node:fs'
 import {
   defineConfig,
   presetAttributify,
@@ -7,9 +8,13 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 import presetTheme from 'unocss-preset-theme'
+import yaml from 'yaml'
 import { themeConfig } from './src/config.ts'
 
-const { light, dark } = themeConfig.color
+// UnoCSS runs outside Astro's virtual config module; load the site's palette here too.
+const siteConfig = yaml.parse(readFileSync(new URL('./retypeset.config.yaml', import.meta.url), 'utf8'))
+const light = { ...themeConfig.color.light, ...siteConfig.color?.light }
+const dark = { ...themeConfig.color.dark, ...siteConfig.color?.dark }
 
 export default defineConfig({
   presets: [

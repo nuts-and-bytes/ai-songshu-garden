@@ -216,3 +216,7 @@ and easy to drift away from.
 When the system shifts (new font role, new shortcut, new accent), update
 this file in the same commit as the code change. A README for the design
 that lags the code is worse than no README.
+
+## Stone identity — approved 2026-10-28
+
+The public brand is `stone` (lowercase). The approved stone silhouette has a single page-like negative-space opening; use the same geometry across the header, favicon, home-screen icon and share cards. Use a Georgia serif wordmark, warm paper #FAF7F2, ink #1C1917 and restrained terracotta #C2410C. This approval replaces the former yellow-only accent and old site name, while preserving the reading layout, language support and article URLs. GitHub account/repository names remain unchanged.

@@ -99,14 +99,14 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       size: [250],
     },
     border: {
-      color: [242, 241, 245],
+      color: [250, 247, 242],
       width: 20,
     },
     font: {
       title: {
         families: ['Noto Sans SC'],
         weight: 'Bold',
-        color: [34, 33, 36],
+        color: [28, 25, 23],
         lineHeight: 1.5,
       },
       description: {
@@ -116,6 +116,6 @@ export const { getStaticPaths, GET } = await OGImageRoute({
       },
     },
     fonts: [FONT_BOLD, FONT_REGULAR],
-    bgGradient: [[242, 241, 245]],
+    bgGradient: [[250, 247, 242]],
   }),
 })

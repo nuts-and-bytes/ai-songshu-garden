@@ -8,8 +8,9 @@ const navLabels = ['文章', '笔记', '日记', '分类', '标签', '时间线'
 
 test('renders approved brand and complete navigation', async ({ page, request }) => {
   await page.goto(`${base}/`)
-  await expect(page).toHaveTitle(/nuts & bytes - 静水流深/)
-  await expect(page.locator('#site-title-link')).toHaveText('nuts & bytes')
+  await expect(page).toHaveTitle(/stone - 静水流深/)
+  await expect(page.locator('#site-title-link')).toHaveText('stone')
+  await expect(page.locator('html')).toHaveCSS('background-color', 'oklch(0.977 0.007 80)')
   await expect(page.getByText('静水流深', { exact: true })).toBeVisible()
   const nav = page.locator('nav[aria-label="Site Navigation"]')
   await expect(nav.locator('a')).toHaveCount(7)
@@ -105,7 +106,7 @@ test('provides a themed 404 with a working home route', async ({ page }) => {
 test('shows every approved About contact', async ({ page }) => {
   await page.goto(`${base}/about`)
   const about = page.locator('.heti')
-  await expect(about.locator('a[href="https://nuts-and-bytes.github.io/portfolio/"]')).toBeVisible()
+  await expect(about.locator('a[href="https://heystone.site/"]')).toBeVisible()
   await expect(about.locator('a[href="https://github.com/nuts-and-bytes"]')).toBeVisible()
   await expect(about.locator('a[href="mailto:zxy200204@126.com"]')).toBeVisible()
   await expect(about.locator('a[href="mailto:zhuxinyao99@gmail.com"]')).toBeVisible()

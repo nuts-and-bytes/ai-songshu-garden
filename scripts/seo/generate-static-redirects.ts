@@ -35,7 +35,7 @@ function redirectDocument(to: string): string {
   <meta name="robots" content="noindex, follow">
   <meta http-equiv="refresh" content="0;url=${escapedPath}">
   <link rel="canonical" href="${canonical}">
-  <title>页面已迁移 · nuts &amp; bytes</title>
+  <title>页面已迁移 · stone</title>
   <script>location.replace(${jsTarget} + location.search + location.hash)</script>
 </head>
 <body data-pagefind-ignore="all">
