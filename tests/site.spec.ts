@@ -29,7 +29,7 @@ test('renders approved brand and complete navigation', async ({ page, request })
 
 test('renders the canonical article and article interactions', async ({ page }) => {
   await page.goto(article)
-  await expect(page.locator('h1.post-title')).toContainText('如何用 Claude Code')
+  await expect(page.locator('h1.post-title')).toContainText('用 Obsidian 打造你的第二大脑')
   await expect(page.locator('#post-date')).toContainText('2026-06-03')
   await expect(page.locator('#toc-container')).toBeVisible()
   await expect(page.locator('pre code').first()).toBeVisible()
@@ -54,7 +54,7 @@ test('falls English and Japanese article routes back to Chinese', async ({ page 
     await expect(page.locator('html')).toHaveAttribute('lang', new RegExp(locale))
     await expect(page.locator('article')).toHaveAttribute('data-content-fallback', 'zh')
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
-    await expect(page.locator('h1.post-title')).toContainText('如何用 Claude Code')
+    await expect(page.locator('h1.post-title')).toContainText('用 Obsidian 打造你的第二大脑')
   }
 })
 

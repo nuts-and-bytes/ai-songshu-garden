@@ -17,14 +17,16 @@ test('contains exactly one canonical post with stable metadata', () => {
   assert.deepEqual(files, ['如何用 Claude Code 搭一个会自动整理的知识库.md'])
 
   const post = readMarkdown(postPath)
-  assert.equal(post.data.title, '如何用 Claude Code 搭一个会自动整理的知识库')
+  assert.equal(post.data.title, '用 Obsidian 打造你的第二大脑')
   assert.equal(post.data.published, '2026-06-03')
-  assert.equal(post.data.updated, '2026-06-07')
+  assert.equal(post.data.updated, '2026-10-28')
   assert.equal(post.data.lang, 'zh')
   assert.equal(post.data.toc, true)
   assert.deepEqual(post.data.tags, ['AI', '工作流', 'Obsidian'])
-  assert.match(post.body, /## 零、先问：这套东西适合你吗？/)
-  assert.ok(Buffer.byteLength(post.body, 'utf8') > 18000)
+  assert.match(post.body, /完整搭建提示词/)
+  assert.match(post.body, /stone-second-brain\.zip/)
+  assert.match(post.body, /原始转录要保留/)
+  assert.match(post.body, /vault-graph\.webp/)
 })
 
 test('keeps notes and journals empty without inventing content', () => {
