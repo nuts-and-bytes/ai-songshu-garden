@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import test from 'vitest'
+import test from 'node:test'
 import yaml from 'yaml'
 
 function readMarkdown(path: string) {
