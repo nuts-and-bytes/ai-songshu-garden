@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const base = '/ai-songshu-garden'
+const base = ''
 const slug = '如何用-claude-code-搭一个会自动整理的知识库'
 const article = `${base}/posts/${slug}`
 
@@ -18,7 +18,7 @@ test('renders approved brand and complete navigation', async ({ page, request })
   await expect(page.locator('a[href*="/posts/"]')).toHaveCount(7)
   await expect(page.locator('footer a[name="RSS"]')).toHaveAttribute(
     'href',
-    '/ai-songshu-garden/atom.xml',
+    '/atom.xml',
   )
 
   for (const href of await nav.locator('a').evaluateAll(links => links.map(link => link.getAttribute('href')!))) {
@@ -103,7 +103,7 @@ test('keeps notes and journals as intentional empty states', async ({ page }) =>
 test('provides a themed 404 with a working home route', async ({ page }) => {
   await page.goto(`${base}/404`)
   await expect(page.getByText('PAGE', { exact: true })).toBeVisible()
-  await expect(page.getByRole('link', { name: '返回首页' })).toHaveAttribute('href', '/ai-songshu-garden/')
+  await expect(page.getByRole('link', { name: '返回首页' })).toHaveAttribute('href', '/')
 })
 
 test('shows every approved About contact', async ({ page }) => {
@@ -219,7 +219,7 @@ test('keeps legacy tag html URLs as real canonical tag pages', async ({ page }) 
   await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://nuts-and-bytes.github.io/ai-songshu-garden/tags/AI',
+    'https://blog.heystone.site/tags/AI',
   )
 })
 

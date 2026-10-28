@@ -4,8 +4,8 @@ site:
   description: 一个零基础编程用户用 AI 折腾工具、工作流与生活的个人博客。
   i18nTitle: false
   author: stone
-  url: https://nuts-and-bytes.github.io
-  base: /ai-songshu-garden
+  url: https://blog.heystone.site
+  base: /
   favicon: /icons/favicon.svg
 
 color:

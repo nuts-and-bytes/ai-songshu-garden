@@ -5,8 +5,8 @@ import process from 'node:process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { legacyRoutes } from './legacy-routes'
 
-const SITE_ORIGIN = 'https://nuts-and-bytes.github.io'
-const BASE = '/ai-songshu-garden'
+const SITE_ORIGIN = 'https://blog.heystone.site'
+const BASE = ''
 
 function targetPath(to: string): string {
   return to === '/' ? `${BASE}/` : `${BASE}${to}`

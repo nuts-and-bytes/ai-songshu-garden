@@ -5,8 +5,8 @@ import { join } from 'node:path'
 import test from 'node:test'
 import { generateStaticRedirects } from '../../scripts/seo/generate-static-redirects'
 
-const base = '/ai-songshu-garden'
-const origin = 'https://nuts-and-bytes.github.io'
+const base = ''
+const origin = 'https://blog.heystone.site'
 
 test('writes a noindex Pagefind-ignored redirect document', () => {
   const output = mkdtempSync(join(tmpdir(), 'songshu-redirects-'))
@@ -29,10 +29,10 @@ test('writes nested index and root html routes to exact legacy locations', () =>
     },
   ])
 
-  assert.match(readFileSync(join(output, '博客/index.html'), 'utf8'), /ai-songshu-garden\//)
+  assert.match(readFileSync(join(output, '博客/index.html'), 'utf8'), /url=\//)
   assert.match(
     readFileSync(join(output, '如何用-Claude-Code-搭一个会自动整理的知识库.html'), 'utf8'),
-    /ai-songshu-garden\/posts\/如何用-claude-code/,
+    /\/posts\/如何用-claude-code/,
   )
 })
 

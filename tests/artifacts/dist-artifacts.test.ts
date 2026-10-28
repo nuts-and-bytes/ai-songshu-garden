@@ -33,12 +33,12 @@ test('production build contains every required surface', () => {
   }
 })
 
-test('homepage assets and canonical URL include the GitHub Pages base', () => {
+test('homepage assets and canonical URL use the custom domain root', () => {
   const html = readFileSync('dist/index.html', 'utf8')
-  assert.match(html, /https:\/\/nuts-and-bytes\.github\.io\/ai-songshu-garden\//)
-  assert.match(html, /\/ai-songshu-garden\/_astro\//)
-  assert.doesNotMatch(html, /href=["']?\/pagefind\//)
-  assert.doesNotMatch(html, /atom\.xm(?:["' >])/)
+  assert.match(html, /https:\/\/blog\.heystone\.site\//)
+  assert.match(html, /\/_astro\//)
+  assert.doesNotMatch(html, /ai-songshu-garden/)
+  assert.doesNotMatch(html, /atom\.xm["' >]/)
   assert.doesNotMatch(html, /Life Odyssey|zhenjia\.dev|quartz/)
 })
 
@@ -49,5 +49,5 @@ test('fallback article copies are excluded from Pagefind and search engines', ()
   )
   assert.match(html, /data-content-fallback=["']?zh/)
   assert.match(html, /data-pagefind-ignore=["']?all/)
-  assert.match(html, /<meta(?=[^>]*name=["']?robots)(?=[^>]*content="noindex, follow")[^>]*>/)
+  assert.match(html, /<meta(?=[^>]*name=["']?robots)(?=[^>]*content="noindex, follow")[^>]+>/)
 })

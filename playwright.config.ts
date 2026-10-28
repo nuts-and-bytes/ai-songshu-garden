@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
@@ -9,15 +10,15 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: 'http://127.0.0.1:4321',
+    baseURL: 'http://127.0.0.1:4322',
     trace: 'on-first-retry',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'pnpm preview --host 127.0.0.1',
-    url: 'http://127.0.0.1:4321/ai-songshu-garden/',
+    command: 'pnpm preview --host 127.0.0.1 --port 4322',
+    url: 'http://127.0.0.1:4322/',
     reuseExistingServer: !process.env.CI,
   },
 })

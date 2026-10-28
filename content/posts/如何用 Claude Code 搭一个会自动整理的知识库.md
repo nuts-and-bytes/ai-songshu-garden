@@ -26,19 +26,19 @@ Obsidian 保存和连接笔记，AI 帮我阅读、整理。我负责决定哪�
 
 下面两张图来自我正在使用的 Obsidian 知识库，拍摄于 2026 年 10 月 28 日。它们展示真实界面，不是起步包的模拟效果；下载包不包含这些私人笔记。
 
-![我的 Obsidian 知识库首页，按资料、笔记和个人沉淀组织入口](/ai-songshu-garden/images/second-brain/vault-home.webp)
+![我的 Obsidian 知识库首页，按资料、笔记和个人沉淀组织入口](/images/second-brain/vault-home.webp)
 
 首页是我回到资料的入口。文件夹可以有自己的分类，最重要的是：知道原文在哪、整理结果在哪、自己的判断在哪。
 
-![我的 Obsidian 全局关系图谱，展示笔记之间已有的双链关系](/ai-songshu-garden/images/second-brain/vault-graph.webp)
+![我的 Obsidian 全局关系图谱，展示笔记之间已有的双链关系](/images/second-brain/vault-graph.webp)
 
 图谱里的点和线来自实际笔记及链接。它适合发现孤立笔记或主题之间的联系，但线越多不代表理解越深。一个 `[[双链]]` 只能表示“我把它们连起来了”，不能证明两个观点有因果关系。
 
 ## 下载：规则、脚本和验收一起提供
 
-- **[下载第二大脑起步包 v2 ZIP](/ai-songshu-garden/downloads/stone-second-brain.zip)**：包含运行脚本、完整规则、公开资料样例、测试与操作指南。
-- **[下载完整 AI 搭建提示词](/ai-songshu-garden/downloads/stone-second-brain-prompt.md)**：交给能操作本地文件和终端的 AI，按现成脚本搭建。
-- [查看验收记录](/ai-songshu-garden/downloads/stone-second-brain/docs/验收记录.md) · [查看原库规则对照](/ai-songshu-garden/downloads/stone-second-brain/docs/规则对照.md)
+- **[下载第二大脑起步包 v2 ZIP](/downloads/stone-second-brain.zip)**：包含运行脚本、完整规则、公开资料样例、测试与操作指南。
+- **[下载完整 AI 搭建提示词](/downloads/stone-second-brain-prompt.md)**：交给能操作本地文件和终端的 AI，按现成脚本搭建。
+- [查看验收记录](/downloads/stone-second-brain/docs/验收记录.md) · [查看原库规则对照](/downloads/stone-second-brain/docs/规则对照.md)
 
 **解压得到的是搭建工具，运行初始化后才会得到新知识库。** 它不是带账号的一键安装器，不包含我的私人内容、模型服务、主题或插件。无需把整库上传到某个网站。
 

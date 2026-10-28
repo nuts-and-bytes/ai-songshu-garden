@@ -14,12 +14,12 @@ const expectedFooterLinks = [
   ['小红书', 'https://www.xiaohongshu.com/user/profile/zhuxinyao99'],
 ]
 
-test('uses the approved stone identity and GitHub Pages base', () => {
+test('uses the approved stone identity and custom domain', () => {
   assert.equal(config.site.title, 'stone')
   assert.equal(config.site.subtitle, '静水流深')
   assert.equal(config.site.author, 'stone')
-  assert.equal(config.site.url, 'https://nuts-and-bytes.github.io')
-  assert.equal(config.site.base, '/ai-songshu-garden')
+  assert.equal(config.site.url, 'https://blog.heystone.site')
+  assert.equal(config.site.base, '/')
   assert.equal(config.site.i18nTitle, false)
 })
 
