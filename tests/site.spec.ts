@@ -62,7 +62,8 @@ test('copies code, zooms images, and returns through article history', async ({ 
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto(`${base}/`)
   await page.getByRole('link', { name: 'Next page', exact: true }).click()
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(2)
+  await page.getByRole('link', { name: 'Next page', exact: true }).click()
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(4)
   await page.getByRole('link', { name: '用 Obsidian 打造你的第二大脑', exact: true }).click()
   await expect.poll(() => decodeURI(new URL(page.url()).pathname)).toBe(article)
 
@@ -89,7 +90,7 @@ test('copies code, zooms images, and returns through article history', async ({ 
   await expect(page.locator('.zoom-img')).toHaveCount(0)
 
   await page.locator('#back-button').click()
-  await expect(page).toHaveURL(new RegExp(`${base}/2$`))
+  await expect(page).toHaveURL(new RegExp(`${base}/3$`))
 })
 
 test('keeps notes and journals as intentional empty states', async ({ page }) => {

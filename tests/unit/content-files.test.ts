@@ -14,7 +14,7 @@ const postPath = 'content/posts/如何用 Claude Code 搭一个会自动整理�
 
 test('keeps canonical posts with stable metadata', () => {
   const files = readdirSync('content/posts').filter(file => /\.mdx?$/.test(file))
-  assert.deepEqual(files.sort(), ['和 AI 一起走过的半年.md', '如何用 Claude Code 搭一个会自动整理的知识库.md', '《活着》读后感.md', '《窄门》读后感.md', '《悉达多》读后感.md', '《沧浪之水》读后感.md', '《一句顶一万句》读后感.md', '《安娜卡列尼娜》读后感.md', '《早晨从中午开始》读后感.md'].sort())
+  assert.deepEqual(files.sort(), ['和 AI 一起走过的半年.md', '如何用 Claude Code 搭一个会自动整理的知识库.md', '《活着》读后感.md', '《窄门》读后感.md', '《悉达多》读后感.md', '《沧浪之水》读后感.md', '《一句顶一万句》读后感.md', '《安娜卡列尼娜》读后感.md', '《早晨从中午开始》读后感.md', '看完这期十三邀，我理解了什么叫“一念之差”.md', '这一刻“传统”也许有了新的定义.md', '还能学习是一件幸福的事.md', '爱能跨越时空.md', '像树一样去奉献吧.md', '你是不是也羡慕这样的时刻.md', '我的故事总发生在夏天.md', '第一次看孟京辉，另一种形式的《活着》.md', '【项塔兰】—心灵的找回与救赎.md'].sort())
 
   const post = readMarkdown(postPath)
   assert.equal(post.data.title, '用 Obsidian 打造你的第二大脑')
