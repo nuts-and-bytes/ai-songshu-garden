@@ -21,9 +21,24 @@ draft: false
 
 我并不感到气馁。相反那些成功安装小龙虾的视频里的那一行“openclaw config” 一直在感召我，那时候并不知道这个东西能干嘛，只是觉得好玩。整整一天泡在图书馆里搞配置，学安装，接到我的电报上。
 
+<figure>
+  <img src="/ai-songshu-garden/images/ai-half-year/openclaw-setup.jpg" alt="Mac 终端中的 OpenClaw 配置界面" width="2048" height="1536" loading="lazy" decoding="async" />
+  <figcaption>那时在终端里一点点摸索的 OpenClaw 配置。</figcaption>
+</figure>
+
 终于在 3 月 11 日的凌晨，我电报里的小龙虾，在我发了无数次“你好”之后，终于回复了我“你好！我是一个 Google 训练的大模型……”那一刻，我连说了三个 nb，现在回想起来那时的心脏狂跳和按捺不住的喜悦依然历历在目。
 
+<figure>
+  <img src="/ai-songshu-garden/images/ai-half-year/telegram-first-reply.jpg" alt="Telegram 对话里多次报错后终于收到模型的第一条回复" width="2048" height="1536" loading="lazy" decoding="async" />
+  <figcaption>3 月 11 日凌晨，发了无数次“你好”之后，终于等到回复。</figcaption>
+</figure>
+
 我要特别感谢 Gemini，虽然现在被大家戏称为“美国豆包”，但确实是 Gemini 在这个过程中不厌其烦地指导我，陪伴我完成了最后的配置。跑通后我给 Gemini 说“终于跑通了！谢谢你”，它的回复让我很感动。
+
+<figure>
+  <img src="/ai-songshu-garden/images/ai-half-year/gemini-thank-you.jpg" alt="我对 Gemini 说终于跑通了谢谢你，Gemini 回顾一起排查问题的过程并给予鼓励" width="1290" height="1396" loading="lazy" decoding="async" />
+  <figcaption>“终于跑通了！谢谢你！”——当时让我很感动的一段回复。</figcaption>
+</figure>
 
 那一刻我突然理解： AI 的意义好像不仅仅是一个问答工具，至少在我安装小龙虾的那一段时间里，它是我的老师，甚至是我的朋友。
 
@@ -52,6 +67,11 @@ draft: false
 因为这个我认识了很多陌生的、喜欢玩 AI 的朋友，也发现不同的人都有自己独特的优势：有审美很好的，有逻辑性很强可以设计流程的，有运营意识和商业思维很强的，有很会描述自己需求的。
 
 我们会在一起分享 AI 技巧，互相学习，这是 AI 带给我的一笔重要的财富。
+
+<figure>
+  <img src="/ai-songshu-garden/images/ai-half-year/building-together.jpg" alt="两台笔记本并排摆在桌上，屏幕展示着各自制作的网站" width="2048" height="1536" loading="lazy" decoding="async" />
+  <figcaption>一起做东西、交流想法时留下的照片。</figcaption>
+</figure>
 
 ## 一次意料之外的实习机会
 
@@ -106,3 +126,8 @@ AI 不是生活的一切。在这个信息爆炸的时代，过度追赶 AI 的�
 AI 的出现永远是让自己的生活越来越好，越来越有掌控感。比起 AI 告诉你的这个世界，还是应该多走出去，去晒太阳，去散步，去感受这个世界而不是去听闻这个世界。
 
 我是石头，后面会定期分享 AI，阅读，洞见和感受，我是一个不专业的 AI 使用者，期待你的到来。
+
+
+---
+
+本文整理自我于 2026 年 10 月 24 日发布的 [X 长文](https://x.com/zxy200204/status/2113966813793144966)，配图保留自原帖。
