@@ -9,7 +9,7 @@ corepack pnpm install --frozen-lockfile
 corepack pnpm dev
 ```
 
-生产环境基础路径为 `/ai-songshu-garden`。
+生产站点为 `https://blog.heystone.site`，基础路径为 `/`。
 
 ## 验证
 
@@ -33,7 +33,15 @@ corepack pnpm test:e2e
 
 推送到 `main` 后，GitHub Actions 会将 `dist/` 部署到：
 
-https://nuts-and-bytes.github.io/ai-songshu-garden/
+https://blog.heystone.site/
+
+## AI 技巧文章写作
+
+文章从具体经历写起，口语、随意一些；讲清为什么做、用起来有什么变化，以及别人怎样实现同样的效果。删除通用困扰句、空比喻、口号式标签和刻意的排比，个人使用证据与待验证项分开。
+
+配图使用 `orange-line-illustration`：细黑线、白底留白、橙色点缀，每篇按内容单独设计，保留原有照片和截图。2026-11-13 为 wait-what 和 18 篇旧文配图；原始出图与提示词留在本机，网页使用 `public/images/illustrations/` 下的 WebP。
+
+wait-what 的发布源为 `content/posts/AI 说了半天我没懂，所以我做了个 wait-what.md`，Skill 下载源为 `public/downloads/wait-what/SKILL.md`；其余三篇 AI 技巧文章仍为 `draft: true`，待用户审阅后再发布。详细选题与口吻反馈留在本地 `docs/editorial/`。
 
 ## 主题许可
 
