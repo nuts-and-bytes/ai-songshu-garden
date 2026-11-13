@@ -14,7 +14,7 @@ toc: true
 draft: false
 ---
 
-![小橙顺着一根线，从笔记找到原来的书](/images/illustrations/second-brain.webp)
+![读过的东西能找回来，留下的结论能回到原文核对。](/images/illustrations/second-brain.webp)
 
 我想要的第二大脑很简单：读过的东西，需要时能找到；留下的结论，能回到原文核对；不同文章里的想法，可以慢慢连起来。
 

@@ -10,7 +10,7 @@ draft: false
 description: 我给 wait-what 加了哪些重讲要求，怎样先用提示词试一遍，以及如何保存成自己的 Skill。
 ---
 
-![小橙擦开白板上的乱线，露出几级清楚的台阶](/images/illustrations/wait-what.webp)
+![检查通过了，我还是想知道平时该怎么用。](/images/illustrations/wait-what.webp)
 
 这次让 AI 帮我整理几个项目的资料入口，它交付时告诉我，已经覆盖了 25 组项目，91 个链接检查通过。
 

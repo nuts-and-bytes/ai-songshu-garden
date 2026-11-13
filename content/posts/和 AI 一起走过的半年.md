@@ -13,7 +13,7 @@ toc: true
 draft: false
 ---
 
-![小橙在图书馆里，把做好的小作品递给朋友](/images/illustrations/ai-half-year.webp)
+![从图书馆里第一次跑通程序，到慢慢做出自己的产品。](/images/illustrations/ai-half-year.webp)
 
 大家好，这是我的第一条 X 长文。我想在这里记录自己和 AI 的半年，以及 AI 带给我的、改变我的。
 

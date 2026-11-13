@@ -41,6 +41,8 @@ https://blog.heystone.site/
 
 配图使用 `orange-line-illustration`：细黑线、白底留白、橙色点缀，每篇按内容单独设计，保留原有照片和截图。2026-11-13 为 wait-what 和 18 篇旧文配图；原始出图与提示词留在本机，网页使用 `public/images/illustrations/` 下的 WebP。
 
+图注从各篇正文的具体内容中提炼，必要时沿用原句；不要直接用“小橙在做什么”的画面描述，也不另造金句。当前主题会把 Markdown 图片的替代文字显示成图注，发布前需核对这一行与正文的关系。
+
 wait-what 的发布源为 `content/posts/AI 说了半天我没懂，所以我做了个 wait-what.md`，Skill 下载源为 `public/downloads/wait-what/SKILL.md`；其余三篇 AI 技巧文章仍为 `draft: true`，待用户审阅后再发布。详细选题与口吻反馈留在本地 `docs/editorial/`。
 
 ## 主题许可
