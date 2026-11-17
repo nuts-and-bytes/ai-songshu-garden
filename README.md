@@ -47,7 +47,7 @@ https://blog.heystone.site/
 
 图注从各篇正文的具体内容中提炼，必要时沿用原句；不要直接用“小橙在做什么”的画面描述，也不另造金句。当前主题会把 Markdown 图片的替代文字显示成图注，发布前需核对这一行与正文的关系。
 
-wait-what 的发布源为 `content/posts/AI 说了半天我没懂，所以我做了个 wait-what.md`，Skill 下载源为 `public/downloads/wait-what/SKILL.md`；其余三篇 AI 技巧文章仍为 `draft: true`，待用户审阅后再发布。详细选题与口吻反馈留在本地 `docs/editorial/`。
+wait-what 的发布源为 `content/posts/AI 说了半天我没懂，所以我做了个 wait-what.md`，Skill 下载源为 `public/downloads/wait-what/SKILL.md`；其余 AI 技巧文章保留 `draft: true`，待用户审阅后再发布。详细选题与口吻反馈留在本地 `docs/editorial/`。
 
 ## 主题许可
 
