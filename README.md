@@ -2,6 +2,10 @@
 
 `stone` 是一个记录 AI 工具、工作流与个人实践的博客，使用 Astro 和源码内置的 Retypeset Odyssey 主题构建。
 
+[阅读博客](https://blog.heystone.site/) · [个人网站](https://heystone.site/) · [主题来源](THEME_UPSTREAM.md)
+
+面向读者的文章在独立域名发布；本仓库用于维护博客源码、内容和相关下载。
+
 ## 本地开发
 
 ```bash
