@@ -16,6 +16,8 @@ const requiredFiles = [
   'dist/llms.txt',
   'dist/llms-full.txt',
   'dist/og/site.png',
+  'dist/posts/pake-x-desktop-with-ai.html',
+  'dist/images/illustrations/pake-x-desktop.webp',
   'dist/如何用-Claude-Code-搭一个会自动整理的知识库.html',
   'dist/关于我.html',
   'dist/博客/index.html',

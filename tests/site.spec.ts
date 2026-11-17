@@ -63,7 +63,7 @@ test('copies code, zooms images, and returns through article history', async ({ 
   await page.goto(`${base}/`)
   await page.getByRole('link', { name: 'Next page', exact: true }).click()
   await page.getByRole('link', { name: 'Next page', exact: true }).click()
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(5)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(6)
   await page.getByRole('link', { name: '用 Obsidian 打造你的第二大脑', exact: true }).click()
   await expect.poll(() => decodeURI(new URL(page.url()).pathname)).toBe(article)
 
@@ -216,7 +216,7 @@ test('redirects every representative legacy route to its canonical page', async 
 test('keeps legacy tag html URLs as real canonical tag pages', async ({ page }) => {
   const response = await page.goto(`${base}/tags/AI.html`)
   expect(response?.status()).toBe(200)
-  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(3)
+  await expect(page.locator('a[href*="/posts/"]')).toHaveCount(4)
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://blog.heystone.site/tags/AI',
