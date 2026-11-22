@@ -308,7 +308,11 @@ test('fits Xiao Orange on a narrow screen and follows theme and reduced motion',
     const article = element.closest('#post-content')!.getBoundingClientRect()
     return frame.left >= article.left && frame.right <= article.right && frame.right <= innerWidth
   })).toBe(true)
-  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320)
+  const horizontalOverflow = await page.evaluate(() => {
+    const root = document.documentElement
+    return root.scrollWidth - root.clientWidth
+  })
+  expect(horizontalOverflow).toBeLessThanOrEqual(0)
 
   const player = embed.frameLocator('iframe')
   const canvas = player.getByRole('img')
