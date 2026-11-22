@@ -270,3 +270,59 @@ test('keeps the full prompt copyable and article readable on narrow screens', as
     await page.screenshot({ path: `test-results/article-table-${width}.png`, animations: 'disabled' })
   }
 })
+
+test('plays and replays Xiao Orange between the wait-what paragraphs', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/posts/wait-what-explain-again')
+
+  const embed = page.locator('#post-content #xiao-orange')
+  await expect(embed.locator('xpath=preceding-sibling::*[1]')).toHaveText(/^我跟它说.*平时该怎么用。$/)
+  await expect(embed.locator('xpath=following-sibling::*[1]')).toHaveText(/^它后来才解释/)
+  const player = embed.frameLocator('iframe')
+  const canvas = player.getByRole('img')
+  const button = player.getByRole('button')
+  await expect(button).toHaveText('重讲一下')
+  await expect(canvas).toHaveAccessibleName(/91 个链接通过/)
+
+  for (let play = 0; play < 2; play++) {
+    await button.click()
+    await expect(button).toHaveText('从头播放')
+    await expect(button).toHaveText('再看一遍', { timeout: 9000 })
+    await expect(canvas).toHaveAccessibleName(/对应的目录和进度/)
+  }
+
+  expect(errors).toEqual([])
+})
+
+test('fits Xiao Orange on a narrow screen and follows theme and reduced motion', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 })
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+  await page.goto('/posts/wait-what-explain-again')
+
+  const embed = page.locator('#xiao-orange')
+  const iframe = embed.locator('iframe')
+  await expect(iframe).toBeVisible()
+  expect(await iframe.evaluate((element) => {
+    const frame = element.getBoundingClientRect()
+    const article = element.closest('#post-content')!.getBoundingClientRect()
+    return frame.left >= article.left && frame.right <= article.right && frame.right <= innerWidth
+  })).toBe(true)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320)
+
+  const player = embed.frameLocator('iframe')
+  const canvas = player.getByRole('img')
+  const button = player.getByRole('button')
+  await expect(canvas).toHaveCSS('background-color', 'oklch(0.977 0.007 80)')
+  await page.locator('#theme-toggle-button').click()
+  await expect(canvas).toHaveCSS('background-color', 'oklch(0.216 0.006 56)')
+  await page.reload()
+  await expect(canvas).toHaveCSS('background-color', 'oklch(0.216 0.006 56)')
+
+  await button.click()
+  await expect(button).toHaveText('再看一遍', { timeout: 1000 })
+  await expect(canvas).toHaveAccessibleName(/对应的目录和进度/)
+  await button.click()
+  await expect(button).toHaveText('重讲一下')
+  await expect(canvas).toHaveAccessibleName(/91 个链接通过/)
+})

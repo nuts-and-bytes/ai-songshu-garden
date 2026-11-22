@@ -48,3 +48,20 @@
 .stone-article .prompt-block code, .stone-article .command-block code { word-break: normal; overflow-wrap: anywhere; white-space: pre-wrap; }
 .stone-article .code-copy-button.copied, html.dark .stone-article .code-copy-button.copied { color: inherit; background: color-mix(in srgb, currentColor 9%, transparent); }
 .stone-article #post-content :not(pre) > code { word-break: normal; overflow-wrap: anywhere; }
+
+.wait-what-animation {
+  container-type: inline-size;
+  margin: 0 0 1.3em;
+  scroll-margin-top: 6.5rem;
+}
+.wait-what-animation iframe {
+  display: block;
+  width: 100%;
+  /* The 420 × 216 scene plus the playback controls. */
+  height: calc(100cqw * 216 / 420 + 56px);
+  border: 0;
+  color-scheme: light;
+}
+html.dark .wait-what-animation iframe {
+  color-scheme: dark;
+}

@@ -66,8 +66,22 @@ async function setupTweetEmbeds() {
   document.head.appendChild(script)
 }
 
+// The sandboxed local player receives only the article's current color scheme.
+function updateXiaoOrangeTheme() {
+  const player = document.querySelector<HTMLIFrameElement>('#xiao-orange iframe')
+  const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  player?.contentWindow?.postMessage({ xiaoOrangeTheme: theme }, '*')
+}
+
+function setupXiaoOrangeEmbed() {
+  const player = document.querySelector<HTMLIFrameElement>('#xiao-orange iframe')
+  player?.addEventListener('load', updateXiaoOrangeTheme, { once: true })
+  updateXiaoOrangeTheme()
+}
+
 // Initialize all media embeds
 async function setupMediaEmbeds() {
+  setupXiaoOrangeEmbed()
   await Promise.allSettled([
     setupYouTubeEmbeds(),
     setupTweetEmbeds(),
@@ -123,5 +137,6 @@ function handleGalleryWheel(e: WheelEvent) {
 
 document.addEventListener('astro:page-load', setupMediaEmbeds)
 document.addEventListener('theme-changed', updateMermaidTheme)
+document.addEventListener('theme-changed', updateXiaoOrangeTheme)
 document.addEventListener('wheel', handleGalleryWheel, { passive: false })
 </script>

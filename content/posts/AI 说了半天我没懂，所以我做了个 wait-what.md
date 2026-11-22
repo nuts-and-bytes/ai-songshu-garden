@@ -16,6 +16,10 @@ description: 我给 wait-what 加了哪些重讲要求，怎样先用提示词�
 
 我跟它说：“现在你给我的回复都偏技术。”又让它讲了一遍，接入以后，我实际用起来会有什么变化，平时该怎么用。
 
+<div id="xiao-orange" class="wait-what-animation no-heti">
+  <iframe src="/embeds/xiao-orange-wait-what.html" title="小橙动画：重讲一下" loading="lazy" sandbox="allow-scripts"></iframe>
+</div>
+
 它后来才解释，换个新聊天，我可以直接提项目名字，它会去找对应的目录和进度，减少重新交代背景的麻烦。
 
 链接有效当然要检查，但那段检查结果没回答我的使用问题。这一轮我是直接追问的。我本地改过的 `wait-what`，就是把类似的重讲要求存成一个 Skill，方便下次调用。
