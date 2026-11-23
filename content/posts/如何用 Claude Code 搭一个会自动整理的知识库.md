@@ -100,6 +100,10 @@ python3 -m venv .venv
 
 让 AI 完整读取返回的 Raw，按模板补全中文摘要、核心要点、值得深挖和引用证据。草稿里应分清原作者观点、AI 推断及尚不确定的地方。让它展示结果，暂时不要运行 `publish`。
 
+<div id="xiao-orange-quote" class="xiao-orange-animation no-heti">
+  <iframe src="/embeds/xiao-orange-quote-check.html" title="小橙动画：沿来源核对引文" loading="lazy" sandbox="allow-scripts"></iframe>
+</div>
+
 你至少检查三件事：引用能逐字找到；总结没有删掉限制和重要对比；双链有明确关联理由。然后用自己的话复述理解。确认后使用：
 
 ```text

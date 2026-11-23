@@ -67,15 +67,19 @@ async function setupTweetEmbeds() {
 }
 
 // The sandboxed local player receives only the article's current color scheme.
+const xiaoOrangePlayer = '#xiao-orange iframe, .xiao-orange-animation iframe'
+
 function updateXiaoOrangeTheme() {
-  const player = document.querySelector<HTMLIFrameElement>('#xiao-orange iframe')
   const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-  player?.contentWindow?.postMessage({ xiaoOrangeTheme: theme }, '*')
+  document.querySelectorAll<HTMLIFrameElement>(xiaoOrangePlayer).forEach((player) => {
+    player.contentWindow?.postMessage({ xiaoOrangeTheme: theme }, '*')
+  })
 }
 
 function setupXiaoOrangeEmbed() {
-  const player = document.querySelector<HTMLIFrameElement>('#xiao-orange iframe')
-  player?.addEventListener('load', updateXiaoOrangeTheme, { once: true })
+  document.querySelectorAll<HTMLIFrameElement>(xiaoOrangePlayer).forEach((player) => {
+    player.addEventListener('load', updateXiaoOrangeTheme, { once: true })
+  })
   updateXiaoOrangeTheme()
 }
 
