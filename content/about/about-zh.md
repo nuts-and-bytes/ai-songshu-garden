@@ -2,6 +2,8 @@
 lang: zh
 ---
 
+> *Humans thrive when we do the creative work that we love, and that only we can do.*
+
 ## 我是谁
 
 一个零基础编程小白，对效率、美和科技有点执念，喜欢自己动手折腾工具。
