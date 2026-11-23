@@ -36,8 +36,8 @@
 使用 Astro 与 `pnpm` 构建：
 
 ```bash
-git clone https://github.com/nuts-and-bytes/ai-songshu-garden.git
-cd ai-songshu-garden
+git clone https://github.com/nuts-and-bytes/stone-blog.git
+cd stone-blog
 corepack pnpm install --frozen-lockfile
 corepack pnpm dev
 ```

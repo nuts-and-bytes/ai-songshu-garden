@@ -1,5 +1,5 @@
 {
-  "name": "ai-songshu-garden",
+  "name": "stone-blog",
   "private": true,
   "type": "module",
   "version": "1.0.0",
@@ -17,7 +17,7 @@
     "ai-friendly"
   ],
   "packageManager": "pnpm@10.26.0",
-  "repository": "https://github.com/nuts-and-bytes/ai-songshu-garden",
+  "repository": "https://github.com/nuts-and-bytes/stone-blog",
   "exports": {
     ".": "./integration.ts",
     "./integration": "./integration.ts",
